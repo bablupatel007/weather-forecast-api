@@ -4322,7 +4322,7 @@
 
             <div class="weather-grid">
                 <!-- Humidity Card -->
-                <div class="weather-card">
+                <div class="weather-card rain-card-clickable" onclick="openModal('humidity')" title="Click for detailed humidity insights">
                     <div class="card-header">
                         <div class="card-icon">💧</div>
                         <div class="card-title">Humidity</div>
@@ -4330,24 +4330,16 @@
                     <div class="card-value" id="humidityValue">
                         <span class="card-unit">%</span>
                     </div>
-                    <div class="detail-icon-btn" onclick="openModal('humidity')" title="Click for AI insights">
-                        <span class="icon-finger">👆</span>
-                        <span class="icon-text">Details</span>
-                    </div>
                 </div>
 
                 <!-- Wind Speed Card -->
-                <div class="weather-card">
+                <div class="weather-card rain-card-clickable" onclick="openModal('wind')" title="Click for detailed wind insights">
                     <div class="card-header">
                         <div class="card-icon">💨</div>
                         <div class="card-title">Wind Speed</div>
                     </div>
                     <div class="card-value" id="windValue">
                         <span class="card-unit">m/s</span>
-                    </div>
-                    <div class="detail-icon-btn" onclick="openModal('wind')" title="Click for AI insights">
-                        <span class="icon-finger">👆</span>
-                        <span class="icon-text">Details</span>
                     </div>
                 </div>
 
@@ -4363,7 +4355,7 @@
                 </div>
 
                 <!-- Sunrise & Sunset Card -->
-                <div class="weather-card">
+                <div class="weather-card rain-card-clickable" onclick="openModal('sun')" title="Click for detailed sunrise & sunset insights">
                     <div class="card-header">
                         <div class="card-icon">🌅</div>
                         <div class="card-title">Sunrise & Sunset</div>
@@ -4379,10 +4371,6 @@
                                 <span id="sunsetTime">--:--</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="detail-icon-btn" onclick="openModal('sun')" title="Click for AI insights">
-                        <span class="icon-finger">👆</span>
-                        <span class="icon-text">Details</span>
                     </div>
                 </div>
 
