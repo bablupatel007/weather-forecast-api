@@ -1300,6 +1300,60 @@
             75% { transform: rotate(15deg); }
         }
 
+        /* Rain Card Specific Styles */
+        .weather-card.rain-card-clickable {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .weather-card.rain-card-clickable:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 20px 60px rgba(100, 181, 246, 0.4),
+                        0 0 40px rgba(100, 181, 246, 0.2);
+        }
+
+        .weather-card.rain-card-clickable::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(100, 181, 246, 0.15),
+                rgba(66, 165, 245, 0.1));
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .weather-card.rain-card-clickable:hover::before {
+            opacity: 1;
+        }
+
+        .weather-card.rain-card-clickable::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg,
+                rgba(100, 181, 246, 0.5),
+                rgba(66, 165, 245, 0.5));
+            border-radius: 22px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            filter: blur(10px);
+        }
+
+        .weather-card.rain-card-clickable:hover::after {
+            opacity: 0.6;
+        }
+
         .icon-text {
             font-size: 0.85em;
             font-weight: 700;
@@ -1396,108 +1450,7 @@
             --poor-aqi-bg-3: rgba(128, 0, 128, 0.5);
         }
         
-        /* Animated Particle Effects for Modals */
-        .modal-backdrop::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            animation: particleFloat 20s ease-in-out infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes particleFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-30px, 30px) scale(0.9); }
-        }
-        
-        /* Wind Particle Animation */
-        .modal-backdrop.wind-particles::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 40px,
-                rgba(255, 255, 255, 0.1) 40px,
-                rgba(255, 255, 255, 0.1) 80px
-            );
-            animation: windFlow 3s linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes windFlow {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(50%); }
-        }
-        
-        /* Rain Particle Animation */
-        .modal-backdrop.rain-particles::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 200%;
-            background-image: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.15) 50%, transparent 100%);
-            background-size: 30px 80px;
-            animation: rainFall 1.2s linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes rainFall {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(50%); }
-        }
-        
-        /* Sun Glow Animation */
-        .modal-backdrop.sun-glow::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            animation: sunPulse 4s ease-in-out infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes sunPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
-        }
-        
-        /* AQI Pollution Particles */
-        .modal-backdrop.aqi-particles::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: pollutionDrift 15s linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes pollutionDrift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Modal Backdrop - Dynamic Gradient with Animation */
+        /* Modal Backdrop - Static (No Animations) */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -1508,33 +1461,15 @@
                 var(--backdrop-color-1, rgba(102, 126, 234, 0.4)) 0%,
                 var(--backdrop-color-2, rgba(118, 75, 162, 0.4)) 50%,
                 var(--backdrop-color-3, rgba(142, 45, 226, 0.4)) 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 15s ease infinite, backdropFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             z-index: 999;
             display: none;
+            opacity: 1;
         }
 
         .modal-backdrop.active {
             display: block;
-        }
-
-        @keyframes backdropFadeIn {
-            from {
-                opacity: 0;
-                backdrop-filter: blur(0px);
-            }
-            to {
-                opacity: 1;
-                backdrop-filter: blur(20px) saturate(180%);
-            }
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         /* Modal Container - Dynamic Premium Glassmorphism */
@@ -2121,6 +2056,129 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+        /* ========================================
+           RAIN MODAL SPECIFIC STYLES
+           ======================================== */
+        
+        /* Alert Pills for Storm Status */
+        .alert-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .alert-pill:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.35) 0%,
+                rgba(255, 255, 255, 0.25) 100%);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Hourly Rain Timeline */
+        .hourly-rain-timeline {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 16px 8px;
+            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+        }
+
+        .hourly-rain-timeline::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .hourly-rain-timeline::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .hourly-rain-timeline::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .hourly-rain-timeline::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .hourly-item {
+            flex: 0 0 auto;
+            min-width: 70px;
+            text-align: center;
+            padding: 12px 8px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .hourly-item:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.2) 100%);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .hourly-time {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .hourly-icon {
+            font-size: 1.8em;
+            margin: 6px 0;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .hourly-rain-percent {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .hourly-rain-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .hourly-rain-fill {
+            height: 100%;
+            background: linear-gradient(90deg,
+                rgba(100, 181, 246, 0.8),
+                rgba(33, 150, 243, 0.9));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
         }
 
         /* ========================================
@@ -2452,6 +2510,1417 @@
                 0 2px 6px rgba(0, 0, 0, 0.4),
                 0 1px 2px rgba(0, 0, 0, 0.2);
         }
+        /* ========================================
+           PREMIUM RAIN MODAL - AI DASHBOARD STYLES
+           ======================================== */
+        
+        /* Rain Hero Metrics Grid */
+        .rain-hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+            animation: rainHeroSlide 0.6s ease-out;
+        }
+
+        @keyframes rainHeroSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rain-metric-card {
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 18px;
+            padding: 20px 14px;
+            text-align: center;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rain-metric-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2),
+                        0 0 20px rgba(100, 200, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .rain-primary {
+            background: linear-gradient(145deg,
+                rgba(100, 180, 255, 0.35) 0%,
+                rgba(60, 140, 255, 0.25) 100%);
+            border-color: rgba(100, 200, 255, 0.5);
+        }
+
+        .rain-primary:hover {
+            background: linear-gradient(145deg,
+                rgba(100, 180, 255, 0.45) 0%,
+                rgba(60, 140, 255, 0.35) 100%);
+            box-shadow: 0 12px 32px rgba(60, 140, 255, 0.4),
+                        0 0 30px rgba(100, 200, 255, 0.5);
+        }
+
+        .rain-metric-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 200, 255, 0.3) 0%, transparent 70%);
+            animation: rainGlow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rainGlow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .rain-metric-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+            animation: rainIconFloat 2.5s ease-in-out infinite;
+        }
+
+        @keyframes rainIconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .rain-metric-value {
+            font-size: 2em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            margin-bottom: 6px;
+            line-height: 1;
+        }
+
+        .rain-unit {
+            font-size: 0.5em;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .rain-metric-label {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* AI Section */
+        .rain-ai-section {
+            margin-bottom: 28px;
+        }
+
+        .rain-section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg,
+                rgba(100, 180, 255, 0.3) 0%,
+                rgba(60, 140, 255, 0.2) 100%);
+            backdrop-filter: blur(15px);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1.5px solid rgba(100, 200, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(60, 140, 255, 0.25),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            margin-bottom: 18px;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 4px 12px rgba(60, 140, 255, 0.25); }
+            50% { box-shadow: 0 6px 18px rgba(60, 140, 255, 0.4); }
+        }
+
+        .rain-badge-icon {
+            font-size: 1.3em;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .rain-badge-text {
+            font-size: 0.95em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* AI Cards Grid */
+        .rain-ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            animation: aiCardsSlide 0.7s ease-out 0.2s backwards;
+        }
+
+        @keyframes aiCardsSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .rain-ai-card {
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rain-ai-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18),
+                        0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .rain-ai-border {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg,
+                rgba(100, 200, 255, 0.8) 0%,
+                rgba(60, 140, 255, 0.6) 100%);
+            box-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
+        }
+
+        .rain-forecast-card .rain-ai-border { background: linear-gradient(180deg, #64B5F6 0%, #42A5F5 100%); }
+        .rain-gear-card .rain-ai-border { background: linear-gradient(180deg, #81C784 0%, #66BB6A 100%); }
+        .rain-travel-card .rain-ai-border { background: linear-gradient(180deg, #FFB74D 0%, #FFA726 100%); }
+        .rain-flood-card .rain-ai-border { background: linear-gradient(180deg, #E57373 0%, #EF5350 100%); }
+        .rain-activity-card .rain-ai-border { background: linear-gradient(180deg, #BA68C8 0%, #AB47BC 100%); }
+        .rain-home-card .rain-ai-border { background: linear-gradient(180deg, #4DD0E1 0%, #26C6DA 100%); }
+
+        .rain-ai-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .rain-ai-icon {
+            font-size: 1.6em;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .rain-ai-title {
+            font-size: 0.95em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .rain-ai-content {
+            font-size: 0.88em;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.5;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            padding-left: 4px;
+        }
+
+        /* Smart Recommendations */
+        .rain-smart-section {
+            margin-bottom: 28px;
+        }
+
+        .rain-smart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            animation: smartSlide 0.7s ease-out 0.3s backwards;
+        }
+
+        @keyframes smartSlide {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rain-smart-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.10) 100%);
+            backdrop-filter: blur(18px);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .rain-smart-card:hover {
+            transform: translateX(6px) scale(1.01);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .rain-smart-icon {
+            font-size: 2.2em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+            flex-shrink: 0;
+        }
+
+        .rain-smart-content {
+            flex: 1;
+        }
+
+        .rain-smart-title {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .rain-smart-text {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.92);
+            line-height: 1.4;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hourly Forecast Scroll */
+        .rain-hourly-section {
+            margin-bottom: 28px;
+        }
+
+        .rain-hourly-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 8px 4px 12px 4px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+            animation: hourlySlide 0.7s ease-out 0.4s backwards;
+        }
+
+        @keyframes hourlySlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .rain-hourly-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .rain-hourly-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .rain-hourly-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .rain-hourly-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .rain-hourly-card {
+            min-width: 100px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.10) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+
+        .rain-hourly-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .rain-hour-time {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .rain-hour-icon {
+            font-size: 2.2em;
+            margin: 8px 0;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .rain-hour-chance {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #64B5F6;
+            margin: 6px 0;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .rain-hour-amount {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Status Chips */
+        .rain-status-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            animation: chipsSlide 0.7s ease-out 0.5s backwards;
+        }
+
+        @keyframes chipsSlide {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rain-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.20) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(15px);
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .rain-chip:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.28) 0%,
+                rgba(255, 255, 255, 0.18) 100%);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+        }
+
+        .rain-trend-chip { border-color: rgba(100, 200, 255, 0.5); }
+        .rain-alert-chip { border-color: rgba(255, 180, 100, 0.5); }
+        .rain-time-chip { border-color: rgba(180, 150, 255, 0.5); }
+        .rain-comfort-chip { border-color: rgba(150, 220, 150, 0.5); }
+
+        .rain-chip-icon {
+            font-size: 1.2em;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .rain-chip-label {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .rain-chip-value {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design for Rain Modal */
+        @media (max-width: 768px) {
+            .rain-hero-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .rain-ai-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .rain-smart-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .rain-status-chips {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .rain-hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rain-metric-card {
+                padding: 16px 12px;
+            }
+
+            .rain-hourly-card {
+                min-width: 90px;
+                padding: 14px 10px;
+            }
+        }
+
+        /* ========================================
+           ENHANCED 5-SECTION RAIN MODAL STYLES
+           ======================================== */
+        
+        /* Rain Icon Animation */
+        .rain-icon-animated {
+            animation: rainDrop 2s ease-in-out infinite;
+        }
+        
+        @keyframes rainDrop {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+        
+        /* Section Container */
+        .rain-section-container {
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.06) 100%);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: sectionSlideIn 0.6s ease-out backwards;
+        }
+        
+        .rain-section-container:nth-child(1) { animation-delay: 0.1s; }
+        .rain-section-container:nth-child(2) { animation-delay: 0.2s; }
+        .rain-section-container:nth-child(3) { animation-delay: 0.3s; }
+        .rain-section-container:nth-child(4) { animation-delay: 0.4s; }
+        .rain-section-container:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes sectionSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .rain-section-container:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.10) 100%);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2),
+                        0 0 20px rgba(100, 200, 255, 0.15);
+        }
+        
+        /* Section Header */
+        .rain-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .rain-section-icon {
+            font-size: 2em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .rain-section-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.5px;
+        }
+        
+        /* SECTION 1: Current Rain Status */
+        .rain-status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 20px;
+        }
+        
+        .rain-status-main-card {
+            background: linear-gradient(145deg,
+                rgba(100, 180, 255, 0.25) 0%,
+                rgba(60, 140, 255, 0.15) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 18px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 2px solid rgba(100, 200, 255, 0.4);
+            box-shadow: 0 8px 24px rgba(60, 140, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rain-status-main-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 200, 255, 0.2) 0%, transparent 70%);
+            animation: statusGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes statusGlow {
+            0%, 100% { opacity: 0.5; transform: rotate(0deg); }
+            50% { opacity: 1; transform: rotate(180deg); }
+        }
+        
+        .rain-icon-wrapper {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+            animation: rainBounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes rainBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .rain-status-value {
+            font-size: 3.5em;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .rain-status-label {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+        }
+        
+        .rain-intensity-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.9em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .intensity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        
+        .rain-status-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .rain-mini-metric {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .rain-mini-metric:hover {
+            transform: translateX(8px);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+        
+        .mini-metric-icon {
+            font-size: 2.5em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+        
+        .mini-metric-content {
+            flex: 1;
+        }
+        
+        .mini-metric-value {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 4px;
+        }
+        
+        .mini-unit {
+            font-size: 0.5em;
+            opacity: 0.9;
+        }
+        
+        .mini-metric-label {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* SECTION 2: Hourly Rain Forecast */
+        .rain-hourly-timeline {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding: 10px 4px 14px 4px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+        }
+        
+        .rain-hourly-timeline::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .rain-hourly-timeline::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .rain-hourly-timeline::-webkit-scrollbar-thumb {
+            background: rgba(100, 200, 255, 0.4);
+            border-radius: 10px;
+        }
+        
+        .rain-hourly-card-enhanced {
+            min-width: 110px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 18px 14px;
+            text-align: center;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+        
+        .rain-hourly-card-enhanced:hover {
+            transform: translateY(-6px) scale(1.05);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hourly-time {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hourly-icon-animated {
+            font-size: 2.5em;
+            margin: 10px 0;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+            animation: hourlyIconFloat 2s ease-in-out infinite;
+        }
+        
+        @keyframes hourlyIconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .hourly-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .hourly-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64B5F6, #42A5F5);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(100, 181, 246, 0.6);
+        }
+        
+        .hourly-percentage {
+            font-size: 1.1em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            margin: 8px 0 4px 0;
+        }
+        
+        .hourly-amount {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* SECTION 3: Thunderstorm & Alerts */
+        .rain-alerts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .rain-alert-card {
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rain-alert-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #FFA726, #FF9800);
+        }
+        
+        .alert-thunderstorm::before {
+            background: linear-gradient(180deg, #FFB74D, #FFA726);
+        }
+        
+        .alert-lightning::before {
+            background: linear-gradient(180deg, #FFD54F, #FFC107);
+        }
+        
+        .alert-wind-rain::before {
+            background: linear-gradient(180deg, #64B5F6, #42A5F5);
+        }
+        
+        .rain-alert-card:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        .alert-icon-wrapper {
+            margin-bottom: 12px;
+        }
+        
+        .alert-icon {
+            font-size: 2.5em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+            animation: alertPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes alertPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .alert-content {
+            margin-bottom: 12px;
+        }
+        
+        .alert-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .alert-value {
+            font-size: 1.6em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 6px;
+        }
+        
+        .alert-description {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .alert-severity-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 0.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .alert-severity-badge.low {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: #A5D6A7;
+        }
+        
+        .alert-severity-badge.moderate {
+            background: rgba(255, 167, 38, 0.3);
+            border: 1px solid rgba(255, 167, 38, 0.5);
+            color: #FFD54F;
+        }
+        
+        .alert-severity-badge.high {
+            background: rgba(244, 67, 54, 0.3);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            color: #EF9A9A;
+        }
+        
+        .rain-warning-banner {
+            background: linear-gradient(135deg,
+                rgba(255, 152, 0, 0.25) 0%,
+                rgba(255, 87, 34, 0.25) 100%);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 152, 0, 0.5);
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+            animation: warningPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes warningPulse {
+            0%, 100% { box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3); }
+            50% { box-shadow: 0 8px 28px rgba(255, 152, 0, 0.5); }
+        }
+        
+        .warning-icon {
+            font-size: 2em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+            animation: warningShake 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes warningShake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+        
+        .warning-text {
+            flex: 1;
+            font-size: 0.95em;
+            color: white;
+            line-height: 1.5;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* SECTION 4: Humidity & Visibility */
+        .rain-humidity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 20px;
+        }
+        
+        .humidity-card {
+            background: linear-gradient(145deg,
+                rgba(100, 180, 255, 0.2) 0%,
+                rgba(60, 140, 255, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            border: 2px solid rgba(100, 200, 255, 0.3);
+        }
+        
+        .humidity-icon-large {
+            font-size: 3em;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+            animation: humidityDrop 2.5s ease-in-out infinite;
+        }
+        
+        @keyframes humidityDrop {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+        
+        .humidity-gauge {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 16px auto;
+        }
+        
+        .humidity-circle {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        
+        .humidity-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.15);
+            stroke-width: 8;
+        }
+        
+        .humidity-progress {
+            fill: none;
+            stroke: url(#humidityGradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 70;
+            transition: stroke-dashoffset 1s ease;
+        }
+        
+        .humidity-value-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .humidity-percentage {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .humidity-label {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .humidity-description {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .visibility-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        
+        .visibility-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .visibility-card:hover {
+            transform: translateX(8px);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+        
+        .visibility-icon {
+            font-size: 2.5em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+        
+        .visibility-content {
+            flex: 1;
+        }
+        
+        .visibility-value {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 4px;
+        }
+        
+        .visibility-unit {
+            font-size: 0.5em;
+            opacity: 0.9;
+        }
+        
+        .visibility-label {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            margin-bottom: 8px;
+        }
+        
+        .visibility-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .visibility-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64B5F6, #42A5F5);
+            border-radius: 10px;
+            width: 75%;
+            transition: width 0.5s ease;
+        }
+        
+        .dew-point-indicator,
+        .feels-like-description {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+        
+        /* SECTION 5: Weekly Rain Analysis */
+        .rain-weekly-chart {
+            margin-bottom: 20px;
+        }
+        
+        .weekly-chart-bars {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 12px;
+            height: 220px;
+            padding: 20px 10px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.08) 0%,
+                rgba(255, 255, 255, 0.04) 100%);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .weekly-bar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .weekly-bar-wrapper {
+            width: 100%;
+            height: 160px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        .weekly-bar {
+            width: 100%;
+            max-width: 50px;
+            background: linear-gradient(180deg,
+                rgba(100, 180, 255, 0.6) 0%,
+                rgba(60, 140, 255, 0.4) 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.4s ease;
+            box-shadow: 0 -4px 12px rgba(100, 180, 255, 0.3);
+            animation: barGrow 0.8s ease-out backwards;
+        }
+        
+        .weekly-bar-item:nth-child(1) .weekly-bar { animation-delay: 0.1s; }
+        .weekly-bar-item:nth-child(2) .weekly-bar { animation-delay: 0.2s; }
+        .weekly-bar-item:nth-child(3) .weekly-bar { animation-delay: 0.3s; }
+        .weekly-bar-item:nth-child(4) .weekly-bar { animation-delay: 0.4s; }
+        .weekly-bar-item:nth-child(5) .weekly-bar { animation-delay: 0.5s; }
+        .weekly-bar-item:nth-child(6) .weekly-bar { animation-delay: 0.6s; }
+        .weekly-bar-item:nth-child(7) .weekly-bar { animation-delay: 0.7s; }
+        
+        @keyframes barGrow {
+            from {
+                height: 0;
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .weekly-bar:hover {
+            background: linear-gradient(180deg,
+                rgba(100, 180, 255, 0.8) 0%,
+                rgba(60, 140, 255, 0.6) 100%);
+            box-shadow: 0 -6px 20px rgba(100, 180, 255, 0.5);
+            transform: scaleY(1.05);
+        }
+        
+        .weekly-bar.highlight {
+            background: linear-gradient(180deg,
+                rgba(255, 152, 0, 0.7) 0%,
+                rgba(255, 87, 34, 0.5) 100%);
+            box-shadow: 0 -6px 20px rgba(255, 152, 0, 0.5);
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+        }
+        
+        .highest-badge {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 152, 0, 0.3);
+            border: 1px solid rgba(255, 152, 0, 0.5);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 700;
+            color: #FFD54F;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+        }
+        
+        .weekly-day {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .weekly-icon {
+            font-size: 1.5em;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+        }
+        
+        .rain-trend-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+        
+        .trend-summary-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 14px;
+            padding: 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .trend-summary-card:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(145deg,
+                rgba(255, 255, 255, 0.22) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+        
+        .trend-summary-icon {
+            font-size: 2.2em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+        
+        .trend-summary-content {
+            flex: 1;
+        }
+        
+        .trend-summary-label {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            margin-bottom: 4px;
+        }
+        
+        .trend-summary-value {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Responsive Design for Enhanced Modal */
+        @media (max-width: 768px) {
+            .rain-status-grid,
+            .rain-humidity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rain-alerts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rain-trend-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .weekly-chart-bars {
+                height: 180px;
+                gap: 8px;
+            }
+            
+            .weekly-bar-wrapper {
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .rain-section-container {
+                padding: 18px;
+            }
+            
+            .rain-section-title {
+                font-size: 1.1em;
+            }
+            
+            .rain-status-value {
+                font-size: 2.8em;
+            }
+            
+            .weekly-chart-bars {
+                gap: 6px;
+                padding: 15px 8px;
+            }
+        }
+
 
         /* Premium Responsive Design */
         @media (max-width: 768px) {
@@ -2883,17 +4352,13 @@
                 </div>
 
                 <!-- Rain Chance Card -->
-                <div class="weather-card">
+                <div class="weather-card rain-card-clickable" onclick="openModal('rain')" title="Click for detailed rain insights">
                     <div class="card-header">
                         <div class="card-icon">🌧️</div>
                         <div class="card-title">Rain Chance</div>
                     </div>
                     <div class="card-value" id="rainChanceValue">
                         <span class="card-unit">%</span>
-                    </div>
-                    <div class="detail-icon-btn" onclick="openModal('rain')" title="Click for AI insights">
-                        <span class="icon-finger">👆</span>
-                        <span class="icon-text">Details</span>
                     </div>
                 </div>
 
@@ -4173,20 +5638,40 @@
 
         // Modal Control Functions
         function openModal(type) {
+            console.log('openModal called with type:', type);
             const modalId = type + 'Modal';
             const modal = document.getElementById(modalId);
             const backdrop = document.getElementById('modalBackdrop');
             
+            console.log('Modal ID:', modalId);
+            console.log('Modal element:', modal);
+            console.log('Backdrop element:', backdrop);
+            
             if (modal && backdrop) {
+                console.log('Opening modal...');
                 // Populate AI insights when opening modal
                 populateModalAIInsights(type);
+                
+                // Make background completely static - save scroll position
+                const scrollY = window.scrollY;
+                const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+                
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.width = '100%';
+                document.body.style.overflow = 'hidden';
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
                 
                 // Show modal with animation
                 backdrop.classList.add('active');
                 setTimeout(() => {
                     modal.classList.add('active');
+                    console.log('Modal should be visible now');
                 }, 50);
-                document.body.style.overflow = 'hidden';
+            } else {
+                console.error('Modal or backdrop not found!');
+                if (!modal) console.error('Modal element not found:', modalId);
+                if (!backdrop) console.error('Backdrop element not found');
             }
         }
 
@@ -4196,7 +5681,17 @@
             
             modals.forEach(modal => modal.classList.remove('active'));
             backdrop.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            
+            // Restore body scroll position and remove all styles
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            
+            // Restore scroll position
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
         }
 
         // Close modal on Escape key
@@ -5097,46 +6592,176 @@
         }
 
         function populateRainInsights() {
-            const rainVal = parseFloat(document.getElementById('rainChanceValue').textContent.replace('%', '').trim());
+            const rainVal = parseFloat(document.getElementById('rainChanceValue')?.textContent.replace('%', '').trim()) || 0;
+            const humidityVal = parseFloat(document.getElementById('humidityValue')?.textContent.replace('%', '').trim()) || 50;
+            const windSpeed = parseFloat(document.getElementById('windValue')?.textContent.replace('m/s', '').trim()) || 0;
+            const tempText = document.getElementById('mainTemp')?.textContent.replace('°C', '').trim();
+            const currentTemp = parseFloat(tempText) || 20;
             
-            // Rain Forecast
-            let forecast = '';
-            if (rainVal < 20) {
-                forecast = '☀️ Very low chance of rain. Clear skies expected. Perfect day for outdoor plans!';
-            } else if (rainVal < 50) {
-                forecast = '🌤️ Slight chance of rain. Mostly dry conditions expected. Keep an umbrella handy just in case.';
-            } else if (rainVal < 80) {
-                forecast = '🌧️ Moderate to high chance of rain. Wet conditions likely. Plan accordingly for indoor alternatives.';
-            } else {
-                forecast = '⛈️ Very high chance of rain! Heavy precipitation expected. Outdoor activities not recommended.';
-            }
-            document.getElementById('rainInsight').textContent = forecast;
+            console.log('populateRainInsights called - rainVal:', rainVal, 'humidityVal:', humidityVal);
             
-            // Preparation Tips
-            let prep = '';
-            if (rainVal < 20) {
-                prep = '😎 No rain gear needed! Enjoy the sunshine. Apply sunscreen if spending time outdoors.';
-            } else if (rainVal < 50) {
-                prep = '☂️ Carry a compact umbrella or light rain jacket. Better safe than sorry!';
-            } else if (rainVal < 80) {
-                prep = '🌂 Bring waterproof jacket and sturdy umbrella. Wear water-resistant footwear. Protect electronics.';
-            } else {
-                prep = '🌊 Full rain gear essential! Waterproof everything. Consider postponing outdoor plans. Check for flood warnings.';
-            }
-            document.getElementById('rainGear').textContent = prep;
+            // Apply rain theme to backdrop
+            applyRainTheme(rainVal);
             
-            // Activity Recommendations
-            let activity = '';
-            if (rainVal < 20) {
-                activity = '🏃 Perfect for: Hiking, picnics, sports, photography, gardening, beach activities, outdoor events.';
-            } else if (rainVal < 50) {
-                activity = '🚶 Good for: Short walks, covered outdoor activities, shopping, sightseeing with backup plans.';
-            } else if (rainVal < 80) {
-                activity = '🏠 Better indoors: Museums, shopping malls, cinemas, indoor sports, cafes, libraries.';
-            } else {
-                activity = '📚 Stay indoors: Reading, movies, board games, cooking, online activities, home projects.';
+            // Update main rain value
+            const modalRainValue = document.getElementById('modalRainValue');
+            if (modalRainValue) {
+                modalRainValue.innerHTML = `${rainVal}<span class="modal-value-unit">%</span>`;
             }
-            document.getElementById('rainActivity').textContent = activity;
+            
+            // Determine rain intensity
+            let intensityText = '';
+            let intensityDotColor = '';
+            
+            if (rainVal < 20) {
+                intensityText = 'Clear Skies';
+                intensityDotColor = '#4CAF50';
+            } else if (rainVal < 50) {
+                intensityText = 'Light Rain';
+                intensityDotColor = '#64B5F6';
+            } else if (rainVal < 80) {
+                intensityText = 'Moderate Rain';
+                intensityDotColor = '#FFA726';
+            } else {
+                intensityText = 'Heavy Rain';
+                intensityDotColor = '#EF5350';
+            }
+            
+            // Populate metrics grid
+            const rainIntensityMetric = document.getElementById('rainIntensityMetric');
+            if (rainIntensityMetric) {
+                rainIntensityMetric.textContent = intensityText;
+            }
+            
+            const cloudCover = Math.min(100, rainVal + 20);
+            const cloudCoverageMetric = document.getElementById('cloudCoverageMetric');
+            if (cloudCoverageMetric) {
+                cloudCoverageMetric.textContent = `${cloudCover}%`;
+            }
+            
+            const windSpeedMetric = document.getElementById('windSpeedMetric');
+            if (windSpeedMetric) {
+                windSpeedMetric.textContent = `${windSpeed.toFixed(1)} m/s`;
+            }
+            
+            const rainTempMetric = document.getElementById('rainTempMetric');
+            if (rainTempMetric) {
+                rainTempMetric.textContent = `${currentTemp.toFixed(1)}°C`;
+            }
+            
+            // Storm alerts and impact
+            const thunderstormProb = Math.max(0, rainVal - 30);
+            let lightningRisk = 'Minimal';
+            if (rainVal > 70) lightningRisk = 'High';
+            else if (rainVal > 50) lightningRisk = 'Moderate';
+            else if (rainVal > 30) lightningRisk = 'Low';
+            
+            let windImpact = 'Low';
+            if (rainVal > 60 && windSpeed > 5) windImpact = 'High';
+            else if (rainVal > 40 || windSpeed > 3) windImpact = 'Moderate';
+            
+            // Update storm alert pills
+            const thunderstormPill = document.getElementById('thunderstormPill');
+            if (thunderstormPill) {
+                thunderstormPill.textContent = `⚡ Thunderstorm: ${thunderstormProb.toFixed(0)}%`;
+            }
+            
+            const lightningPill = document.getElementById('lightningPill');
+            if (lightningPill) {
+                lightningPill.textContent = `🌩️ Lightning: ${lightningRisk}`;
+            }
+            
+            const windImpactPill = document.getElementById('windImpactPill');
+            if (windImpactPill) {
+                windImpactPill.textContent = `💨 Wind Impact: ${windImpact}`;
+            }
+            
+            // Generate hourly rain forecast
+            const hourlyRainTimeline = document.getElementById('hourlyRainTimeline');
+            if (hourlyRainTimeline) {
+                let hourlyHTML = '';
+                const currentHour = new Date().getHours();
+                
+                for (let i = 0; i < 8; i++) {
+                    const hour = (currentHour + i) % 24;
+                    const hourStr = hour.toString().padStart(2, '0') + ':00';
+                    
+                    // Simulate varying rain probability (in real app, use API data)
+                    const variance = (Math.sin(i * 0.5) * 15);
+                    const hourRain = Math.max(0, Math.min(100, rainVal + variance));
+                    
+                    let icon = '☀️';
+                    if (hourRain > 70) icon = '⛈️';
+                    else if (hourRain > 50) icon = '🌧️';
+                    else if (hourRain > 30) icon = '🌦️';
+                    else if (hourRain > 10) icon = '⛅';
+                    
+                    hourlyHTML += `
+                        <div class="hourly-item">
+                            <div class="hourly-time">${hourStr}</div>
+                            <div class="hourly-icon">${icon}</div>
+                            <div class="hourly-rain-percent">${hourRain.toFixed(0)}%</div>
+                            <div class="hourly-rain-bar">
+                                <div class="hourly-rain-fill" style="width: ${hourRain}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                hourlyRainTimeline.innerHTML = hourlyHTML;
+            }
+            
+            
+            console.log('Rain modal populated successfully with dynamic data');
+        }
+        
+        // Apply Rain Theme to Modal Backdrop
+        function applyRainTheme(rainChance) {
+            const backdrop = document.getElementById('modalBackdrop');
+            const root = document.documentElement;
+            
+            let theme = {};
+            
+            if (rainChance < 20) {
+                theme = {
+                    backdropColor1: 'rgba(100, 181, 246, 0.4)',
+                    backdropColor2: 'rgba(66, 165, 245, 0.4)',
+                    backdropColor3: 'rgba(33, 150, 243, 0.4)',
+                    modalShadowColor: 'rgba(100, 181, 246, 0.3)',
+                    modalGlowColor: 'rgba(100, 181, 246, 0.2)'
+                };
+            } else if (rainChance < 50) {
+                theme = {
+                    backdropColor1: 'rgba(120, 144, 156, 0.4)',
+                    backdropColor2: 'rgba(96, 125, 139, 0.4)',
+                    backdropColor3: 'rgba(84, 110, 122, 0.4)',
+                    modalShadowColor: 'rgba(96, 125, 139, 0.3)',
+                    modalGlowColor: 'rgba(120, 144, 156, 0.2)'
+                };
+            } else if (rainChance < 80) {
+                theme = {
+                    backdropColor1: 'rgba(69, 90, 100, 0.5)',
+                    backdropColor2: 'rgba(55, 71, 79, 0.5)',
+                    backdropColor3: 'rgba(38, 50, 56, 0.5)',
+                    modalShadowColor: 'rgba(69, 90, 100, 0.4)',
+                    modalGlowColor: 'rgba(100, 181, 246, 0.2)'
+                };
+            } else {
+                theme = {
+                    backdropColor1: 'rgba(38, 50, 56, 0.6)',
+                    backdropColor2: 'rgba(33, 33, 33, 0.6)',
+                    backdropColor3: 'rgba(21, 27, 30, 0.6)',
+                    modalShadowColor: 'rgba(33, 33, 33, 0.5)',
+                    modalGlowColor: 'rgba(255, 152, 0, 0.2)'
+                };
+            }
+            
+            Object.entries(theme).forEach(([key, value]) => {
+                const cssVar = '--' + key.replace(/([A-Z])/g, '-$1').toLowerCase();
+                root.style.setProperty(cssVar, value);
+            });
+            
+            backdrop.classList.add('rain-particles');
         }
 
         function populateSunInsights() {
@@ -5812,151 +7437,88 @@
             <div class="modal-title-section">
                 <div class="modal-icon">🌧️</div>
                 <div class="modal-title-text">
-                    <div class="modal-title">Rain Chance Details</div>
-                    <div class="modal-subtitle">Complete Precipitation Analysis with AI Insights</div>
+                    <div class="modal-title">Rain Analytics</div>
+                    <div class="modal-subtitle">Comprehensive Precipitation Insights</div>
                 </div>
             </div>
             <button class="modal-close" onclick="closeModal()">✕</button>
         </div>
         
         <div class="modal-content-section">
-            <!-- Current Rain Metrics Grid -->
+            <!-- Rain Overview Section -->
+            <div class="modal-main-value">
+                <div class="modal-value-number" id="modalRainValue">
+                    --<span class="modal-value-unit">%</span>
+                </div>
+                <div class="modal-value-label">Rain Probability</div>
+            </div>
+            
+            <!-- Rain Overview Metrics Grid -->
             <div class="metrics-grid">
                 <div class="metric-card">
-                    <div class="metric-icon">🌧️</div>
-                    <div class="metric-value" id="modalRainChance">--<span class="metric-unit">%</span></div>
-                    <div class="metric-label">Rain Probability</div>
+                    <div class="metric-icon">💧</div>
+                    <div class="metric-value" id="rainIntensityMetric">--</div>
+                    <div class="metric-label">Intensity</div>
                 </div>
                 <div class="metric-card">
                     <div class="metric-icon">☁️</div>
-                    <div class="metric-value" id="modalCloudCover">--<span class="metric-unit">%</span></div>
-                    <div class="metric-label">Cloud Coverage</div>
+                    <div class="metric-value" id="cloudCoverageMetric">--%</div>
+                    <div class="metric-label">Cloud Cover</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon">💧</div>
-                    <div class="metric-value" id="modalPrecipitation">--<span class="metric-unit">mm</span></div>
-                    <div class="metric-label">Expected Rain</div>
+                    <div class="metric-icon">💨</div>
+                    <div class="metric-value" id="windSpeedMetric">-- m/s</div>
+                    <div class="metric-label">Wind Speed</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-icon">💦</div>
-                    <div class="metric-value" id="modalRainHumidity">--<span class="metric-unit">%</span></div>
-                    <div class="metric-label">Humidity</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">👁️</div>
-                    <div class="metric-value" id="modalVisibility">--<span class="metric-unit">km</span></div>
-                    <div class="metric-label">Visibility</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">⚡</div>
-                    <div class="metric-value" id="modalRainIntensity">--</div>
-                    <div class="metric-label">Intensity</div>
+                    <div class="metric-icon">🌡️</div>
+                    <div class="metric-value" id="rainTempMetric">--°C</div>
+                    <div class="metric-label">Temperature</div>
                 </div>
             </div>
-
-            <!-- AI Weather Insights -->
+            
+            <!-- AI Rain Insights Section -->
             <div class="ai-insights-header">
                 <div class="ai-icon">🤖</div>
                 <div class="ai-insights-title">AI Rain Insights</div>
             </div>
             
             <div class="insight-section">
-                <div class="insight-label">🌧️ Rain Forecast</div>
-                <div class="insight-text" id="rainInsight">Analyzing precipitation data...</div>
+                <div class="insight-label">🌧️ Rain Analysis</div>
+                <div class="insight-text" id="rainInsight">Analyzing precipitation patterns and probability...</div>
             </div>
             
-            <!-- Rain Preparation Tips -->
-            <div class="section-header">
-                <div class="section-icon">☂️</div>
-                <div class="section-title">Preparation & Safety Tips</div>
-            </div>
-            
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <div class="tip-icon">☂️</div>
-                    <div class="tip-title">Rain Gear</div>
-                    <div class="tip-text" id="rainGear">Loading...</div>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-icon">🚗</div>
-                    <div class="tip-title">Travel Safety</div>
-                    <div class="tip-text" id="rainTravelSafety">Loading...</div>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-icon">🏠</div>
-                    <div class="tip-title">Home Protection</div>
-                    <div class="tip-text" id="rainHomePrep">Loading...</div>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-icon">⚠️</div>
-                    <div class="tip-title">Flood Risk</div>
-                    <div class="tip-text" id="rainFloodRisk">Loading...</div>
-                </div>
-            </div>
-
-            <!-- Smart Recommendations -->
-            <div class="section-header">
-                <div class="section-icon">💡</div>
-                <div class="section-title">Smart Rain Recommendations</div>
-            </div>
-            
-            <div class="recommendations-grid">
-                <div class="recommendation-card">
-                    <div class="rec-icon">🎯</div>
-                    <div class="rec-content">
-                        <div class="rec-title">Best Time to Go Out</div>
-                        <div class="rec-text" id="rainBestTime">Loading...</div>
-                    </div>
-                </div>
-                <div class="recommendation-card">
-                    <div class="rec-icon">🏃</div>
-                    <div class="rec-content">
-                        <div class="rec-title">Activity Suggestions</div>
-                        <div class="rec-text" id="rainActivity">Loading...</div>
-                    </div>
-                </div>
-                <div class="recommendation-card">
-                    <div class="rec-icon">📱</div>
-                    <div class="rec-content">
-                        <div class="rec-title">Emergency Contacts</div>
-                        <div class="rec-text" id="rainEmergency">Loading...</div>
+            <!-- Rain Alerts & Storm Impact -->
+            <div class="insight-section">
+                <div class="insight-label">⛈️ Storm & Alert Status</div>
+                <div class="insight-text" id="rainThunderstorm">
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
+                        <span class="alert-pill" id="thunderstormPill">⚡ Thunderstorm: Low</span>
+                        <span class="alert-pill" id="lightningPill">🌩️ Lightning: Minimal</span>
+                        <span class="alert-pill" id="windImpactPill">💨 Wind Impact: Moderate</span>
                     </div>
                 </div>
             </div>
-
+            
             <!-- Hourly Rain Forecast -->
-            <div class="section-header">
-                <div class="section-icon">📊</div>
-                <div class="section-title">Hourly Rain Forecast</div>
+            <div class="insight-section">
+                <div class="insight-label">📊 Hourly Rain Forecast</div>
+                <div class="insight-text" id="rainHourly">
+                    <div class="hourly-rain-timeline" id="hourlyRainTimeline">
+                        Loading hourly precipitation data...
+                    </div>
+                </div>
             </div>
             
-            <div class="forecast-chart-container">
-                <canvas id="rainForecastChart"></canvas>
+            <!-- Preparation & Activity Tips -->
+            <div class="insight-section">
+                <div class="insight-label">☂️ Preparation Tips</div>
+                <div class="insight-text" id="rainPrep">Loading weather preparation advice...</div>
             </div>
-
-            <!-- Rain Trend Indicators -->
-            <div class="trend-indicators">
-                <div class="trend-card">
-                    <div class="trend-icon">📈</div>
-                    <div class="trend-info">
-                        <div class="trend-label">Rain Trend</div>
-                        <div class="trend-value" id="rainTrend">Stable</div>
-                    </div>
-                </div>
-                <div class="trend-card">
-                    <div class="trend-icon">⚠️</div>
-                    <div class="trend-info">
-                        <div class="trend-label">Alert Level</div>
-                        <div class="trend-value" id="rainAlert">Low</div>
-                    </div>
-                </div>
-                <div class="trend-card">
-                    <div class="trend-icon">⏰</div>
-                    <div class="trend-info">
-                        <div class="trend-label">Expected Time</div>
-                        <div class="trend-value" id="rainExpectedTime">--</div>
-                    </div>
-                </div>
+            
+            <div class="insight-section">
+                <div class="insight-label">🚶 Activity Recommendations</div>
+                <div class="insight-text" id="rainActivity">Preparing outdoor activity suggestions...</div>
             </div>
         </div>
     </div>

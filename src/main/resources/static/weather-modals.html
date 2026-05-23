@@ -93,39 +93,88 @@
         <div class="modal-title-section">
             <div class="modal-icon">🌧️</div>
             <div class="modal-title-text">
-                <div class="modal-title">Rain Chance</div>
-                <div class="modal-subtitle">Precipitation Forecast</div>
+                <div class="modal-title">Rain Analytics</div>
+                <div class="modal-subtitle">Comprehensive Precipitation Insights</div>
             </div>
         </div>
         <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     
     <div class="modal-content-section">
+        <!-- Rain Overview Section -->
         <div class="modal-main-value">
             <div class="modal-value-number" id="modalRainValue">
                 --<span class="modal-value-unit">%</span>
             </div>
-            <div class="modal-value-label">Probability of Rain</div>
+            <div class="modal-value-label">Rain Probability</div>
         </div>
         
+        <!-- Rain Overview Metrics Grid -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">💧</div>
+                <div class="metric-value" id="rainIntensityMetric">--</div>
+                <div class="metric-label">Intensity</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">☁️</div>
+                <div class="metric-value" id="cloudCoverageMetric">--%</div>
+                <div class="metric-label">Cloud Cover</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">💨</div>
+                <div class="metric-value" id="windSpeedMetric">-- m/s</div>
+                <div class="metric-label">Wind Speed</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🌡️</div>
+                <div class="metric-value" id="rainTempMetric">--°C</div>
+                <div class="metric-label">Temperature</div>
+            </div>
+        </div>
+        
+        <!-- AI Rain Insights Section -->
         <div class="ai-insights-header">
             <div class="ai-icon">🤖</div>
-            <div class="ai-insights-title">AI Weather Insights</div>
+            <div class="ai-insights-title">AI Rain Insights</div>
         </div>
         
         <div class="insight-section">
-            <div class="insight-label">🌧️ Rain Forecast</div>
-            <div class="insight-text" id="rainInsight">Analyzing precipitation data...</div>
+            <div class="insight-label">🌧️ Rain Analysis</div>
+            <div class="insight-text" id="rainInsight">Analyzing precipitation patterns and probability...</div>
         </div>
         
+        <!-- Rain Alerts & Storm Impact -->
+        <div class="insight-section">
+            <div class="insight-label">⛈️ Storm & Alert Status</div>
+            <div class="insight-text" id="rainThunderstorm">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
+                    <span class="alert-pill" id="thunderstormPill">⚡ Thunderstorm: Low</span>
+                    <span class="alert-pill" id="lightningPill">🌩️ Lightning: Minimal</span>
+                    <span class="alert-pill" id="windImpactPill">💨 Wind Impact: Moderate</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hourly Rain Forecast -->
+        <div class="insight-section">
+            <div class="insight-label">📊 Hourly Rain Forecast</div>
+            <div class="insight-text" id="rainHourly">
+                <div class="hourly-rain-timeline" id="hourlyRainTimeline">
+                    Loading hourly precipitation data...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preparation & Activity Tips -->
         <div class="insight-section">
             <div class="insight-label">☂️ Preparation Tips</div>
-            <div class="insight-text" id="rainPrep">Loading preparation advice...</div>
+            <div class="insight-text" id="rainPrep">Loading weather preparation advice...</div>
         </div>
         
         <div class="insight-section">
             <div class="insight-label">🚶 Activity Recommendations</div>
-            <div class="insight-text" id="rainActivity">Preparing activity suggestions...</div>
+            <div class="insight-text" id="rainActivity">Preparing outdoor activity suggestions...</div>
         </div>
     </div>
 </div>
