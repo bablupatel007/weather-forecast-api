@@ -156,9 +156,29 @@
             </div>
         </div>
         
-        <!-- Hourly Rain Forecast -->
+        <!-- Hourly Rain Forecast Chart -->
         <div class="insight-section">
             <div class="insight-label">📊 Hourly Rain Forecast</div>
+            <div class="insight-text">
+                <div class="forecast-chart-container" style="height: 280px; margin-top: 15px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 15px;">
+                    <canvas id="rainForecastChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hourly Humidity Forecast Chart -->
+        <div class="insight-section">
+            <div class="insight-label">💧 Hourly Humidity Forecast</div>
+            <div class="insight-text">
+                <div class="forecast-chart-container" style="height: 280px; margin-top: 15px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 15px;">
+                    <canvas id="rainModalHumidityChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hourly Rain Timeline -->
+        <div class="insight-section">
+            <div class="insight-label">⏰ Rain Timeline</div>
             <div class="insight-text" id="rainHourly">
                 <div class="hourly-rain-timeline" id="hourlyRainTimeline">
                     Loading hourly precipitation data...

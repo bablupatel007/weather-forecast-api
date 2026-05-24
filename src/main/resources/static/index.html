@@ -4793,8 +4793,10 @@
             document.getElementById('forecastSection').style.display = 'block';
         }
 
-        // Global variable to store chart instance
+        // Global variable to store chart instances
         let humidityForecastChart = null;
+        let rainForecastChart = null;
+        let rainModalHumidityChart = null;
         let cachedHourlyData = null;
         let hourlyChart = null;
 
@@ -5153,6 +5155,379 @@
                 });
             } catch (error) {
                 console.error('Error creating humidity forecast chart:', error);
+            }
+        }
+
+        function createRainForecastChart() {
+            if (!cachedHourlyData || !cachedHourlyData.hourlyForecasts) {
+                console.warn('No hourly data available for rain chart');
+                return;
+            }
+
+            // Check if Chart.js is available, retry if not
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js not loaded yet, retrying in 500ms...');
+                setTimeout(createRainForecastChart, 500);
+                return;
+            }
+
+            // Extract rain probability data
+            const labels = cachedHourlyData.hourlyForecasts.slice(0, 12).map(hour => hour.time);
+            const rainData = cachedHourlyData.hourlyForecasts.slice(0, 12).map(hour => {
+                // Use pop (probability of precipitation) if available, otherwise use a default
+                return hour.pop ? (hour.pop * 100) : 0;
+            });
+
+            // Create gradient colors based on rain intensity
+            const backgroundColors = rainData.map(value => {
+                if (value > 70) return 'rgba(33, 150, 243, 0.9)'; // Heavy rain - dark blue
+                if (value > 50) return 'rgba(66, 165, 245, 0.8)'; // Moderate rain - medium blue
+                if (value > 30) return 'rgba(100, 181, 246, 0.7)'; // Light rain - light blue
+                if (value > 10) return 'rgba(144, 202, 249, 0.6)'; // Drizzle - very light blue
+                return 'rgba(187, 222, 251, 0.5)'; // Minimal - pale blue
+            });
+
+            const borderColors = rainData.map(value => {
+                if (value > 70) return 'rgba(33, 150, 243, 1)';
+                if (value > 50) return 'rgba(66, 165, 245, 1)';
+                if (value > 30) return 'rgba(100, 181, 246, 1)';
+                if (value > 10) return 'rgba(144, 202, 249, 1)';
+                return 'rgba(187, 222, 251, 1)';
+            });
+
+            // Destroy existing chart if it exists
+            if (rainForecastChart) {
+                rainForecastChart.destroy();
+            }
+
+            // Get canvas element
+            const canvas = document.getElementById('rainForecastChart');
+            if (!canvas) {
+                console.error('Rain forecast chart canvas not found');
+                return;
+            }
+
+            try {
+                // Create new chart with bar type for rain graph effect
+                const ctx = canvas.getContext('2d');
+                rainForecastChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Rain Probability',
+                            data: rainData,
+                            backgroundColor: backgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false,
+                            barThickness: 'flex',
+                            maxBarThickness: 50,
+                            hoverBackgroundColor: 'rgba(33, 150, 243, 1)',
+                            hoverBorderColor: 'rgba(255, 255, 255, 1)',
+                            hoverBorderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold',
+                                        family: 'Poppins'
+                                    },
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    pointStyle: 'rectRounded'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                titleColor: 'white',
+                                bodyColor: 'white',
+                                borderColor: 'rgba(100, 181, 246, 0.8)',
+                                borderWidth: 2,
+                                padding: 15,
+                                displayColors: true,
+                                titleFont: {
+                                    size: 15,
+                                    weight: 'bold',
+                                    family: 'Poppins'
+                                },
+                                bodyFont: {
+                                    size: 14,
+                                    family: 'Poppins'
+                                },
+                                callbacks: {
+                                    title: function(context) {
+                                        return '🕐 ' + context[0].label;
+                                    },
+                                    label: function(context) {
+                                        const value = context.parsed.y.toFixed(0);
+                                        let icon = '☀️';
+                                        let intensity = 'Clear';
+                                        
+                                        if (value > 70) {
+                                            icon = '⛈️';
+                                            intensity = 'Heavy Rain';
+                                        } else if (value > 50) {
+                                            icon = '🌧️';
+                                            intensity = 'Moderate Rain';
+                                        } else if (value > 30) {
+                                            icon = '🌦️';
+                                            intensity = 'Light Rain';
+                                        } else if (value > 10) {
+                                            icon = '⛅';
+                                            intensity = 'Drizzle';
+                                        }
+                                        
+                                        return [
+                                            icon + ' ' + intensity,
+                                            '💧 Probability: ' + value + '%'
+                                        ];
+                                    },
+                                    afterLabel: function(context) {
+                                        const value = context.parsed.y;
+                                        if (value > 70) return '☂️ Umbrella Required!';
+                                        if (value > 50) return '🌂 Bring Umbrella';
+                                        if (value > 30) return '⚠️ Rain Possible';
+                                        return '';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.95)',
+                                    font: {
+                                        size: 11,
+                                        weight: '600',
+                                        family: 'Poppins'
+                                    },
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.15)',
+                                    drawBorder: false,
+                                    lineWidth: 1
+                                },
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.95)',
+                                    font: {
+                                        size: 12,
+                                        weight: '600',
+                                        family: 'Poppins'
+                                    },
+                                    callback: function(value) {
+                                        return value + '%';
+                                    },
+                                    stepSize: 20
+                                },
+                                title: {
+                                    display: true,
+                                    text: '💧 Rain Probability (%)',
+                                    color: 'rgba(255, 255, 255, 0.95)',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold',
+                                        family: 'Poppins'
+                                    },
+                                    padding: {
+                                        top: 10,
+                                        bottom: 10
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 1500,
+                            easing: 'easeInOutQuart',
+                            onComplete: function() {
+                                console.log('Rain graph animation completed');
+                            }
+                        }
+                    }
+                });
+                console.log('Rain forecast bar chart created successfully');
+            } catch (error) {
+                console.error('Error creating rain forecast chart:', error);
+            }
+        }
+
+        function createRainModalHumidityChart() {
+            if (!cachedHourlyData || !cachedHourlyData.hourlyForecasts) {
+                console.warn('No hourly data available for rain modal humidity chart');
+                return;
+            }
+
+            // Check if Chart.js is available, retry if not
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js not loaded yet for humidity chart, retrying in 500ms...');
+                setTimeout(createRainModalHumidityChart, 500);
+                return;
+            }
+
+            // Extract humidity data
+            const labels = cachedHourlyData.hourlyForecasts.slice(0, 12).map(hour => hour.time);
+            const humidityData = cachedHourlyData.hourlyForecasts.slice(0, 12).map(hour => hour.humidity || 0);
+
+            // Destroy existing chart if it exists
+            if (rainModalHumidityChart) {
+                rainModalHumidityChart.destroy();
+            }
+
+            // Get canvas element
+            const canvas = document.getElementById('rainModalHumidityChart');
+            if (!canvas) {
+                console.error('Rain modal humidity chart canvas not found');
+                return;
+            }
+
+            try {
+                // Create new chart
+                const ctx = canvas.getContext('2d');
+                rainModalHumidityChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Humidity (%)',
+                            data: humidityData,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.3)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 6,
+                            pointHoverRadius: 9,
+                            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)',
+                            pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold',
+                                        family: 'Poppins'
+                                    },
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: 'white',
+                                bodyColor: 'white',
+                                borderColor: 'rgba(54, 162, 235, 0.5)',
+                                borderWidth: 2,
+                                padding: 12,
+                                displayColors: true,
+                                titleFont: {
+                                    size: 14,
+                                    weight: 'bold',
+                                    family: 'Poppins'
+                                },
+                                bodyFont: {
+                                    size: 13,
+                                    family: 'Poppins'
+                                },
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.parsed.y.toFixed(0);
+                                        let icon = '💧';
+                                        if (value < 30) icon = '🌵';
+                                        else if (value > 80) icon = '🌊';
+                                        else if (value > 60) icon = '💦';
+                                        return icon + ' ' + context.dataset.label + ': ' + value + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 11,
+                                        weight: 'bold',
+                                        family: 'Poppins'
+                                    },
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold',
+                                        family: 'Poppins'
+                                    },
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Humidity (%)',
+                                    color: 'white',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold',
+                                        family: 'Poppins'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('Rain modal humidity chart created successfully');
+            } catch (error) {
+                console.error('Error creating rain modal humidity chart:', error);
             }
         }
 
@@ -6699,8 +7074,13 @@
                 hourlyRainTimeline.innerHTML = hourlyHTML;
             }
             
+            // Create rain forecast chart
+            createRainForecastChart();
             
-            console.log('Rain modal populated successfully with dynamic data');
+            // Create humidity chart for rain modal
+            createRainModalHumidityChart();
+            
+            console.log('Rain modal populated successfully with dynamic data and charts');
         }
         
         // Apply Rain Theme to Modal Backdrop
@@ -7488,9 +7868,29 @@
                 </div>
             </div>
             
-            <!-- Hourly Rain Forecast -->
+            <!-- Hourly Rain Forecast Chart -->
             <div class="insight-section">
                 <div class="insight-label">📊 Hourly Rain Forecast</div>
+                <div class="insight-text">
+                    <div class="forecast-chart-container" style="height: 280px; margin-top: 15px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 15px;">
+                        <canvas id="rainForecastChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hourly Humidity Forecast Chart -->
+            <div class="insight-section">
+                <div class="insight-label">💧 Hourly Humidity Forecast</div>
+                <div class="insight-text">
+                    <div class="forecast-chart-container" style="height: 280px; margin-top: 15px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 15px;">
+                        <canvas id="rainModalHumidityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hourly Rain Timeline -->
+            <div class="insight-section">
+                <div class="insight-label">⏰ Rain Timeline</div>
                 <div class="insight-text" id="rainHourly">
                     <div class="hourly-rain-timeline" id="hourlyRainTimeline">
                         Loading hourly precipitation data...
