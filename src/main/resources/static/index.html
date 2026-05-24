@@ -21,10 +21,250 @@
             font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
             position: relative;
             overflow-x: hidden;
+
+        /* ========================================
+           DASHBOARD SIDEBAR NAVIGATION
+           ======================================== */
+        .dashboard-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            overflow-y: auto;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dashboard-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dashboard-sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .sidebar-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 25px;
+            margin: 8px 15px;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            transition: width 0.4s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item:hover::before {
+            width: 100%;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.2) 100%);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transform: translateX(8px);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: white;
+            border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-icon {
+            font-size: 1.5em;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-icon {
+            transform: scale(1.15);
+        }
+
+        .nav-text {
+            flex: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-badge {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Mobile Toggle Button */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.2) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Main Dashboard Content */
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+            padding: 20px;
+            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dashboard-page {
+            display: none;
+            animation: pageSlideIn 0.5s ease-out;
+        }
+
+        .dashboard-page.active {
+            display: block;
+        }
+
+        @keyframes pageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .dashboard-sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .dashboard-main {
+                margin-left: 0;
+            }
+        }
             transition: background 1.5s ease-in-out;
+            display: flex;
         }
 
         /* Dynamic Weather Background Themes */
@@ -4273,11 +4513,63 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🌤️ Weather Dashboard</h1>
-            <div class="current-date" id="headerDate"></div>
+    <!-- Sidebar Toggle for Mobile -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Dashboard Sidebar -->
+    <div class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">🌤️</div>
+            <div class="sidebar-title">Weather Pro</div>
+            <div class="sidebar-subtitle">Advanced Analytics</div>
         </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item active" onclick="navigateTo('current-weather')">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Current Weather</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('forecast-analytics')">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Forecast Analytics</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('aqi-dashboard')">
+                <span class="nav-icon">🌫️</span>
+                <span class="nav-text">AQI Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('multi-city')">
+                <span class="nav-icon">🌍</span>
+                <span class="nav-text">Multi-City Compare</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('weather-charts')">
+                <span class="nav-icon">📈</span>
+                <span class="nav-text">Weather Charts</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('stock-market')">
+                <span class="nav-icon">💹</span>
+                <span class="nav-text">Stock Market</span>
+                <span class="nav-badge">New</span>
+            </div>
+            <div class="nav-item" onclick="navigateTo('calendar')">
+                <span class="nav-icon">📅</span>
+                <span class="nav-text">Calendar</span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="dashboard-main">
+        <!-- Current Weather Page (Existing Content) -->
+        <div class="dashboard-page active" id="page-current-weather">
+            <div class="container">
+                <div class="header">
+                    <h1>🌤️ Weather Dashboard</h1>
+                    <div class="current-date" id="headerDate"></div>
+                </div>
 
         <div class="search-section">
             <div class="search-box">
@@ -8227,7 +8519,474 @@
             </div>
         </div>
     </div>
+            </div>
+        </div>
+        <!-- End Current Weather Page -->
 
+        <!-- Forecast Analytics Page -->
+        <div class="dashboard-page" id="page-forecast-analytics">
+            <div class="container">
+                <div class="header">
+                    <h1>📊 Forecast Analytics</h1>
+                    <div class="current-date">Advanced Weather Predictions & Trends</div>
+                </div>
+
+                <div class="search-section">
+                    <h2 style="color: white; margin-bottom: 20px;">🔮 7-Day Forecast Analysis</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Comprehensive weather predictions with AI-powered insights and trend analysis.</p>
+                </div>
+
+                <div class="weather-container">
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">📈</div>
+                            <div class="tip-title">Temperature Trends</div>
+                            <div class="tip-text">Track temperature patterns over the next week with hourly precision and historical comparisons.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">💧</div>
+                            <div class="tip-title">Precipitation Forecast</div>
+                            <div class="tip-text">Detailed rain probability analysis with intensity predictions and timing estimates.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🌪️</div>
+                            <div class="tip-title">Wind Patterns</div>
+                            <div class="tip-text">Wind speed and direction forecasts with gust warnings and safety recommendations.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">☀️</div>
+                            <div class="tip-title">UV Index Tracking</div>
+                            <div class="tip-text">Daily UV radiation levels with sun protection advice and optimal outdoor activity times.</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <div class="section-icon">🎯</div>
+                        <div class="section-title">Coming Soon: Advanced Analytics</div>
+                    </div>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🤖</div>
+                            <div class="rec-content">
+                                <div class="rec-title">AI Predictions</div>
+                                <div class="rec-text">Machine learning models analyzing historical data for accurate forecasts.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">📊</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Statistical Analysis</div>
+                                <div class="rec-text">Comprehensive weather statistics with probability distributions and confidence intervals.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AQI Dashboard Page -->
+        <div class="dashboard-page" id="page-aqi-dashboard">
+            <div class="container">
+                <div class="header">
+                    <h1>🌫️ Air Quality Dashboard</h1>
+                    <div class="current-date">Real-time Air Pollution Monitoring</div>
+                </div>
+
+                <div class="search-section">
+                    <h2 style="color: white; margin-bottom: 20px;">🏭 Air Quality Index (AQI) Monitor</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Track air pollution levels, pollutant concentrations, and health recommendations.</p>
+                </div>
+
+                <div class="weather-container">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">🌫️</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">AQI Level</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">💨</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">PM2.5</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🏭</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">PM10</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">⚗️</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">O₃ Ozone</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🔥</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">CO Level</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">☁️</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">NO₂</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <div class="section-icon">🏥</div>
+                        <div class="section-title">Health Recommendations</div>
+                    </div>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">😷</div>
+                            <div class="tip-title">Mask Recommendations</div>
+                            <div class="tip-text">Based on current AQI levels, we'll recommend appropriate respiratory protection.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🏃</div>
+                            <div class="tip-title">Outdoor Activities</div>
+                            <div class="tip-text">Get personalized advice on safe outdoor exercise times and intensity levels.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🪟</div>
+                            <div class="tip-title">Indoor Air Quality</div>
+                            <div class="tip-text">Tips for maintaining healthy indoor air when outdoor pollution is high.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi-City Comparison Page -->
+        <div class="dashboard-page" id="page-multi-city">
+            <div class="container">
+                <div class="header">
+                    <h1>🌍 Multi-City Comparison</h1>
+                    <div class="current-date">Compare Weather Across Multiple Cities</div>
+                </div>
+
+                <div class="search-section">
+                    <h2 style="color: white; margin-bottom: 20px;">🗺️ Global Weather Comparison</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Compare real-time weather conditions across your favorite cities worldwide.</p>
+                    
+                    <div style="margin-top: 25px;">
+                        <div class="quick-cities">
+                            <div class="quick-city">🇬🇧 London</div>
+                            <div class="quick-city">🇮🇳 Mumbai</div>
+                            <div class="quick-city">🇮🇳 Delhi</div>
+                            <div class="quick-city">🇯🇵 Tokyo</div>
+                            <div class="quick-city">🇫🇷 Paris</div>
+                            <div class="quick-city">🇺🇸 New York</div>
+                            <div class="quick-city">🇦🇺 Sydney</div>
+                            <div class="quick-city">🇩🇪 Berlin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-container">
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <div class="section-title">Comparison Features</div>
+                    </div>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🌡️</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Temperature Comparison</div>
+                                <div class="rec-text">Side-by-side temperature analysis with heat maps and trend indicators.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">💧</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Humidity & Precipitation</div>
+                                <div class="rec-text">Compare moisture levels and rainfall patterns across selected cities.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🌪️</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Wind Conditions</div>
+                                <div class="rec-text">Analyze wind speed and direction differences between locations.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">☀️</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Daylight Hours</div>
+                                <div class="rec-text">Compare sunrise, sunset times and total daylight duration.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Charts Page -->
+        <div class="dashboard-page" id="page-weather-charts">
+            <div class="container">
+                <div class="header">
+                    <h1>📈 Weather Charts & Graphs</h1>
+                    <div class="current-date">Visual Weather Data Analysis</div>
+                </div>
+
+                <div class="search-section">
+                    <h2 style="color: white; margin-bottom: 20px;">📊 Interactive Weather Visualizations</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Explore weather patterns through beautiful, interactive charts and graphs.</p>
+                </div>
+
+                <div class="weather-container">
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">📈</div>
+                            <div class="tip-title">Temperature Charts</div>
+                            <div class="tip-text">Line graphs showing temperature variations over time with min/max indicators.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">📊</div>
+                            <div class="tip-title">Precipitation Graphs</div>
+                            <div class="tip-text">Bar charts displaying rainfall amounts and probability distributions.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🎯</div>
+                            <div class="tip-title">Wind Rose Diagrams</div>
+                            <div class="tip-text">Circular charts showing wind direction frequency and speed distribution.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🌡️</div>
+                            <div class="tip-title">Heat Maps</div>
+                            <div class="tip-text">Color-coded temperature maps for easy pattern recognition.</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <div class="section-icon">🎨</div>
+                        <div class="section-title">Chart Types Available</div>
+                    </div>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card">
+                            <div class="rec-icon">📉</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Historical Trends</div>
+                                <div class="rec-text">View past weather patterns and compare with current conditions.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🔮</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Forecast Predictions</div>
+                                <div class="rec-text">Visual representation of upcoming weather with confidence intervals.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">⚡</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Real-time Updates</div>
+                                <div class="rec-text">Live charts that update automatically with the latest weather data.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Market Page -->
+        <div class="dashboard-page" id="page-stock-market">
+            <div class="container">
+                <div class="header">
+                    <h1>💹 Stock Market Dashboard</h1>
+                    <div class="current-date">Financial Markets & Weather Correlation</div>
+                </div>
+
+                <div class="search-section">
+                    <h2 style="color: white; margin-bottom: 20px;">📈 Market Overview</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Track major indices and weather-sensitive sectors with real-time updates.</p>
+                </div>
+
+                <div class="weather-container">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">📊</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">S&P 500</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">💼</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">NASDAQ</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🏭</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">Dow Jones</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">🌾</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">Agriculture</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">⚡</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">Energy</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">✈️</div>
+                            <div class="metric-value">--</div>
+                            <div class="metric-label">Airlines</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <div class="section-icon">🌦️</div>
+                        <div class="section-title">Weather-Sensitive Sectors</div>
+                    </div>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">🌾</div>
+                            <div class="tip-title">Agriculture Commodities</div>
+                            <div class="tip-text">Weather impacts on crop yields, grain prices, and agricultural stocks.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">⚡</div>
+                            <div class="tip-title">Energy Sector</div>
+                            <div class="tip-text">Temperature effects on energy demand, oil prices, and utility stocks.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">✈️</div>
+                            <div class="tip-title">Travel & Tourism</div>
+                            <div class="tip-text">Weather influence on airline operations, hotel bookings, and tourism stocks.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🏗️</div>
+                            <div class="tip-title">Construction</div>
+                            <div class="tip-text">Weather delays impact on construction companies and building materials.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Page -->
+        <div class="dashboard-page" id="page-calendar">
+            <div class="container">
+                <div class="header">
+                    <h1>📅 Weather Calendar</h1>
+                    <div class="current-date">Plan Ahead with Weather Forecasts</div>
+                </div>
+
+                <div class="search-section">
+                    <h2 style="color: white; margin-bottom: 20px;">🗓️ Monthly Weather Planner</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">View weather forecasts in a calendar format to plan your activities effectively.</p>
+                </div>
+
+                <div class="weather-container">
+                    <div class="section-header">
+                        <div class="section-icon">📆</div>
+                        <div class="section-title">Calendar Features</div>
+                    </div>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">🌤️</div>
+                            <div class="tip-title">Daily Weather Icons</div>
+                            <div class="tip-text">Visual weather indicators for each day with temperature ranges.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">⚠️</div>
+                            <div class="tip-title">Weather Alerts</div>
+                            <div class="tip-text">Highlighted dates with severe weather warnings and advisories.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🎯</div>
+                            <div class="tip-title">Event Planning</div>
+                            <div class="tip-text">Mark important dates and get weather forecasts for your events.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">📊</div>
+                            <div class="tip-title">Monthly Trends</div>
+                            <div class="tip-text">Overview of temperature patterns and precipitation throughout the month.</div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <div class="section-icon">🎨</div>
+                        <div class="section-title">Smart Planning Tools</div>
+                    </div>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🏖️</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Best Days for Outdoor Activities</div>
+                                <div class="rec-text">AI-powered suggestions for optimal days for picnics, sports, and outdoor events.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🌧️</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Rain Day Predictions</div>
+                                <div class="rec-text">Identify rainy days in advance to plan indoor activities or reschedule events.</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card">
+                            <div class="rec-icon">🌡️</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Temperature Extremes</div>
+                                <div class="rec-text">Highlight unusually hot or cold days for special preparation.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Dashboard Main -->
+
+    <!-- Load Weather Modals -->
+    <script>
+        // Dashboard Navigation System
+        function navigateTo(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.dashboard-page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Update nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Close mobile sidebar if open
+            if (window.innerWidth <= 768) {
+                document.getElementById('dashboardSidebar').classList.remove('mobile-open');
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Toggle mobile sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('dashboardSidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('dashboardSidebar');
+                const toggle = document.querySelector('.sidebar-toggle');
+                
+                if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
+                    sidebar.classList.remove('mobile-open');
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
