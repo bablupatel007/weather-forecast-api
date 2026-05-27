@@ -5435,6 +5435,1614 @@
             }
         }
         }
+
+        /* ========================================
+           ICA STUDIO - MULTI-CITY COMPARE STYLES
+           Interactive Contextual Analytics Studio
+           ======================================== */
+
+        /* ICA Studio Container */
+        .ica-studio-container {
+            padding: 20px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hero Analytics Header */
+        .ica-hero-header {
+            position: relative;
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: heroSlideDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes heroSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .ica-hero-globe {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: globeRotate 4s ease-in-out infinite;
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes globeRotate {
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.1); }
+        }
+
+        .ica-hero-title {
+            font-size: 3em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ica-hero-subtitle {
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border-right: 3px solid rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+            animation: typing 3s steps(50) 1s both, blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        .ica-hero-clock {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .ica-hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Smart City Selection Bar */
+        .ica-city-selection {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ica-selection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .ica-selection-header h3 {
+            font-size: 1.8em;
+            color: white;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        .ica-selection-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .ica-btn-primary, .ica-btn-secondary {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .ica-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .ica-btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .ica-btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .ica-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* City Chips */
+        .ica-city-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .ica-city-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            animation: chipFadeIn 0.5s ease-out backwards;
+        }
+
+        .ica-city-chip:nth-child(1) { animation-delay: 0.1s; }
+        .ica-city-chip:nth-child(2) { animation-delay: 0.15s; }
+        .ica-city-chip:nth-child(3) { animation-delay: 0.2s; }
+        .ica-city-chip:nth-child(4) { animation-delay: 0.25s; }
+        .ica-city-chip:nth-child(5) { animation-delay: 0.3s; }
+        .ica-city-chip:nth-child(6) { animation-delay: 0.35s; }
+        .ica-city-chip:nth-child(7) { animation-delay: 0.4s; }
+        .ica-city-chip:nth-child(8) { animation-delay: 0.45s; }
+
+        @keyframes chipFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .ica-city-chip:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-city-chip.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+            animation: chipGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes chipGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.9); }
+        }
+
+        .ica-city-chip-flag {
+            font-size: 1.8em;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+
+        .ica-city-chip-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .ica-city-chip-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-city-chip-temp {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* Search Box */
+        .ica-search-box {
+            position: relative;
+        }
+
+        .ica-search-box input {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .ica-search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .ica-search-box input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* Suggestions Dropdown */
+        .ica-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            animation: dropdownSlideIn 0.3s ease-out;
+        }
+
+        @keyframes dropdownSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ica-suggestions::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .ica-suggestions::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+
+        .ica-suggestions::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.5);
+            border-radius: 10px;
+        }
+
+        .ica-suggestion-header {
+            padding: 12px 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(102, 126, 234, 0.1);
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .ica-suggestion-item {
+            padding: 15px 20px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .ica-suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .ica-suggestion-item:hover,
+        .ica-suggestion-item.ica-suggestion-active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            transform: translateX(5px);
+        }
+
+        .ica-suggestion-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ica-suggestion-flag {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .ica-suggestion-info {
+            flex: 1;
+        }
+
+        .ica-suggestion-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .ica-suggestion-country {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .ica-suggestion-temp {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+
+        .ica-highlight {
+            background: rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            font-weight: 700;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .ica-suggestion-loading {
+            padding: 30px;
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1em;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .ica-suggestion-empty {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .ica-empty-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .ica-empty-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .ica-empty-hint {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        /* City Chip Remove Button */
+        .ica-city-chip-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .ica-city-chip:hover .ica-city-chip-remove {
+            opacity: 1;
+        }
+
+        .ica-city-chip-remove:hover {
+            background: rgba(255, 87, 87, 0.9);
+            transform: scale(1.1);
+        }
+
+        .ica-city-chip-dynamic {
+            position: relative;
+        }
+
+        @keyframes chipSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes chipSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px) scale(0.8);
+            }
+        }
+
+        /* Toast Notifications */
+        .ica-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 18px 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ica-toast.ica-toast-show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .ica-toast-icon {
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+
+        .ica-toast-message {
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .ica-toast-success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .ica-toast-error {
+            border-left: 4px solid #f44336;
+        }
+
+        .ica-toast-warning {
+            border-left: 4px solid #ff9800;
+        }
+
+        .ica-toast-info {
+            border-left: 4px solid #2196f3;
+        }
+
+        /* Max Limit Warning */
+        .ica-max-limit-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10001;
+            animation: warningPopIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes warningPopIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+        }
+
+        .ica-warning-content {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.98) 0%,
+                rgba(255, 255, 255, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 450px;
+            border: 2px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .ica-warning-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: warningShake 0.5s ease-in-out;
+        }
+
+        @keyframes warningShake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .ica-warning-title {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #ff9800;
+            margin-bottom: 15px;
+        }
+
+        .ica-warning-text {
+            font-size: 1.1em;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .ica-warning-close {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ica-warning-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* ICA Section Header */
+        .ica-section-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ica-section-icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .ica-section-header h2 {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .ica-section-header p {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Context Engine Panel */
+        .ica-context-engine {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ica-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .ica-metric-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: metricPop 0.5s ease-out backwards;
+        }
+
+        .ica-metric-card:nth-child(1) { animation-delay: 0.1s; }
+        .ica-metric-card:nth-child(2) { animation-delay: 0.2s; }
+        .ica-metric-card:nth-child(3) { animation-delay: 0.3s; }
+        .ica-metric-card:nth-child(4) { animation-delay: 0.4s; }
+        .ica-metric-card:nth-child(5) { animation-delay: 0.5s; }
+        .ica-metric-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes metricPop {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .ica-metric-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .ica-metric-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .ica-metric-label {
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ica-metric-value {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 8px;
+        }
+
+        .ica-metric-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .ica-metric-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 1s ease-out;
+            animation: progressGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes progressGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(102, 126, 234, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+        }
+
+        /* Visualization Studio */
+        .ica-visualization-studio {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ica-charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .ica-chart-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            animation: chartSlideIn 0.6s ease-out backwards;
+        }
+
+        .ica-chart-card:nth-child(1) { animation-delay: 0.1s; }
+        .ica-chart-card:nth-child(2) { animation-delay: 0.2s; }
+        .ica-chart-card:nth-child(3) { animation-delay: 0.3s; }
+        .ica-chart-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .ica-chart-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .ica-chart-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-chart-icon {
+            font-size: 1.5em;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+        }
+
+        .ica-chart-card canvas {
+            width: 100% !important;
+            height: 300px !important;
+        }
+
+        /* AI Insights Panel */
+        .ica-insights-panel {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .ica-insights-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ica-insight-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            animation: insightSlide 0.6s ease-out backwards;
+        }
+
+        .ica-insight-card:nth-child(1) { animation-delay: 0.1s; }
+        .ica-insight-card:nth-child(2) { animation-delay: 0.2s; }
+        .ica-insight-card:nth-child(3) { animation-delay: 0.3s; }
+        .ica-insight-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes insightSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ica-insight-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-left-width: 8px;
+        }
+
+        .ica-insight-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ica-insight-icon {
+            font-size: 1.8em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .ica-insight-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-insight-text {
+            font-size: 1.05em;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.7;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* World Map */
+        .ica-world-map {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .ica-map-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ica-map-canvas {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            background: linear-gradient(135deg,
+                rgba(102, 126, 234, 0.1) 0%,
+                rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .ica-map-marker {
+            position: relative;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: markerPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes markerPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        .ica-map-marker:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.8);
+        }
+
+        /* Timeline Intelligence */
+        .ica-timeline {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .ica-timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .ica-timeline-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            animation: timelineSlide 0.6s ease-out backwards;
+        }
+
+        .ica-timeline-card:nth-child(1) { animation-delay: 0.1s; }
+        .ica-timeline-card:nth-child(2) { animation-delay: 0.2s; }
+        .ica-timeline-card:nth-child(3) { animation-delay: 0.3s; }
+        .ica-timeline-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes timelineSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ica-timeline-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-timeline-period {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-timeline-icon {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .ica-timeline-data {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Predictive Analytics */
+        .ica-predictive {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .ica-predictive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .ica-predictive-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: predictiveFloat 0.6s ease-out backwards;
+        }
+
+        .ica-predictive-card:nth-child(1) { animation-delay: 0.1s; }
+        .ica-predictive-card:nth-child(2) { animation-delay: 0.2s; }
+        .ica-predictive-card:nth-child(3) { animation-delay: 0.3s; }
+        .ica-predictive-card:nth-child(4) { animation-delay: 0.4s; }
+        .ica-predictive-card:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes predictiveFloat {
+            from {
+                opacity: 0;
+                transform: translateY(40px) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
+        }
+
+        .ica-predictive-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .ica-predictive-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .ica-predictive-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-predictive-value {
+            font-size: 2em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-predictive-desc {
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* Recommendations */
+        .ica-recommendations {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.18) 0%,
+                rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .ica-recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .ica-recommendation-card {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 5px solid #667eea;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            animation: recSlide 0.6s ease-out backwards;
+        }
+
+        .ica-recommendation-card:nth-child(1) { animation-delay: 0.1s; }
+        .ica-recommendation-card:nth-child(2) { animation-delay: 0.2s; }
+        .ica-recommendation-card:nth-child(3) { animation-delay: 0.3s; }
+        .ica-recommendation-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes recSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ica-recommendation-card:hover {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-left-width: 8px;
+        }
+
+        .ica-rec-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .ica-rec-icon {
+            font-size: 2.5em;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .ica-rec-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ica-rec-text {
+            font-size: 1.05em;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .ica-rec-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 3px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Responsive Design for ICA Studio */
+        @media (max-width: 1200px) {
+            .ica-hero-title {
+                font-size: 2.5em;
+            }
+
+            .ica-charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ica-timeline-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .ica-hero-header {
+                padding: 40px 25px;
+            }
+
+            .ica-hero-title {
+                font-size: 2em;
+            }
+
+            .ica-hero-subtitle {
+                font-size: 1.1em;
+            }
+
+            .ica-city-selection,
+            .ica-context-engine,
+            .ica-visualization-studio,
+            .ica-insights-panel,
+            .ica-world-map,
+            .ica-timeline,
+            .ica-predictive,
+            .ica-recommendations {
+                padding: 25px;
+            }
+
+            .ica-section-header h2 {
+                font-size: 2em;
+            }
+
+            .ica-metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ica-timeline-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ica-studio-container {
+                padding: 15px;
+            }
+
+            .ica-hero-title {
+                font-size: 1.8em;
+            }
+
+            .ica-hero-globe {
+                font-size: 3.5em;
+            }
+
+            .ica-selection-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .ica-city-chips {
+                gap: 10px;
+            }
+
+            .ica-city-chip {
+                padding: 12px 18px;
+            }
+
+            .ica-city-chip-flag {
+                font-size: 1.5em;
+            }
+
+            .ica-city-chip-name {
+                font-size: 1em;
+            }
+
+            .ica-city-chip-temp {
+                font-size: 0.85em;
+            }
+
+            .ica-metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ica-section-header h2 {
+                font-size: 1.8em;
+            }
+
+            .ica-section-icon {
+                font-size: 2.5em;
+            }
+
+            /* Search and Suggestions Responsive */
+            .ica-search-box input {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+
+            .ica-suggestions {
+                max-height: 300px;
+            }
+
+            .ica-suggestion-item {
+                padding: 12px 15px;
+            }
+
+            .ica-suggestion-flag {
+                font-size: 1.5em;
+            }
+
+            .ica-suggestion-name {
+                font-size: 1em;
+            }
+
+            .ica-suggestion-country {
+                font-size: 0.85em;
+            }
+
+            .ica-suggestion-temp {
+                font-size: 1em;
+            }
+
+            /* Toast Responsive */
+            .ica-toast {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+                padding: 15px 20px;
+            }
+
+            .ica-toast-icon {
+                font-size: 1.3em;
+            }
+
+            .ica-toast-message {
+                font-size: 0.95em;
+            }
+
+            /* Warning Modal Responsive */
+            .ica-warning-content {
+                padding: 30px 25px;
+                max-width: 90%;
+            }
+
+            .ica-warning-icon {
+                font-size: 3em;
+            }
+
+            .ica-warning-title {
+                font-size: 1.5em;
+            }
+
+            .ica-warning-text {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ica-hero-header {
+                padding: 30px 20px;
+            }
+
+            .ica-hero-title {
+                font-size: 1.5em;
+            }
+
+            .ica-hero-subtitle {
+                font-size: 1em;
+            }
+
+            .ica-city-selection,
+            .ica-context-engine,
+            .ica-visualization-studio,
+            .ica-insights-panel,
+            .ica-world-map,
+            .ica-timeline,
+            .ica-predictive,
+            .ica-recommendations {
+                padding: 20px;
+            }
+
+            .ica-btn-primary,
+            .ica-btn-secondary {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            .ica-city-chips {
+                flex-direction: column;
+            }
+
+            .ica-city-chip {
+                width: 100%;
+            }
+
+            .ica-search-box input {
+                padding: 12px 18px;
+                font-size: 0.95em;
+            }
+
+            .ica-suggestion-header {
+                padding: 10px 15px;
+                font-size: 0.8em;
+            }
+
+            .ica-suggestion-item {
+                padding: 10px 12px;
+            }
+
+            .ica-suggestion-content {
+                gap: 10px;
+            }
+
+            .ica-suggestion-flag {
+                font-size: 1.3em;
+            }
+
+            .ica-suggestion-name {
+                font-size: 0.95em;
+            }
+
+            .ica-suggestion-country {
+                font-size: 0.8em;
+            }
+
+            .ica-suggestion-temp {
+                font-size: 0.95em;
+            }
+
+            .ica-empty-icon {
+                font-size: 2.5em;
+            }
+
+            .ica-empty-text {
+                font-size: 1.1em;
+            }
+
+            .ica-empty-hint {
+                font-size: 0.9em;
+            }
+
+            .ica-warning-content {
+                padding: 25px 20px;
+            }
+
+            .ica-warning-icon {
+                font-size: 2.5em;
+            }
+
+            .ica-warning-title {
+                font-size: 1.3em;
+            }
+
+            .ica-warning-text {
+                font-size: 0.95em;
+            }
+
+            .ica-warning-close {
+                padding: 10px 25px;
+                font-size: 1em;
+            }
+        }
     </style>
     <!-- Chart.js Library with defer for better performance -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
@@ -11415,66 +13023,155 @@
             </div>
         </div>
 
-        <!-- Multi-City Comparison Page -->
+        <!-- Multi-City Comparison Page - ICA Studio -->
         <div class="dashboard-page" id="page-multi-city">
-            <div class="container">
-                <div class="header">
-                    <h1>🌍 Multi-City Comparison</h1>
-                    <div class="current-date">Compare Weather Across Multiple Cities</div>
+            <div class="ica-studio-container">
+                <!-- Hero Analytics Header -->
+                <div class="ica-hero-header">
+                    <div class="ica-hero-globe">🌍</div>
+                    <h1 class="ica-hero-title">Interactive Contextual Analytics Studio</h1>
+                    <p class="ica-hero-subtitle" id="icaSubtitle">AI-powered real-time multi-city weather intelligence</p>
+                    <div class="ica-hero-clock" id="icaUtcClock">UTC: --:--:--</div>
+                    <div class="ica-hero-particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
                 </div>
 
-                <div class="search-section">
-                    <h2 style="color: white; margin-bottom: 20px;">🗺️ Global Weather Comparison</h2>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Compare real-time weather conditions across your favorite cities worldwide.</p>
-                    
-                    <div style="margin-top: 25px;">
-                        <div class="quick-cities">
-                            <div class="quick-city">🇬🇧 London</div>
-                            <div class="quick-city">🇮🇳 Mumbai</div>
-                            <div class="quick-city">🇮🇳 Delhi</div>
-                            <div class="quick-city">🇯🇵 Tokyo</div>
-                            <div class="quick-city">🇫🇷 Paris</div>
-                            <div class="quick-city">🇺🇸 New York</div>
-                            <div class="quick-city">🇦🇺 Sydney</div>
-                            <div class="quick-city">🇩🇪 Berlin</div>
+                <!-- Smart City Selection Bar -->
+                <div class="ica-city-selection">
+                    <div class="ica-selection-header">
+                        <h3>🗺️ Select Cities to Compare</h3>
+                        <div class="ica-selection-actions">
+                            <button class="ica-btn-secondary" onclick="ICAStudio.resetCities()">🔄 Reset</button>
+                            <button class="ica-btn-primary" onclick="ICAStudio.compareAll()">⚡ Compare All</button>
+                        </div>
+                    </div>
+                    <div class="ica-city-chips" id="icaCityChips">
+                        <!-- City chips will be generated here -->
+                    </div>
+                    <div class="ica-search-box">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" id="icaCitySearch" placeholder="🔍 Search and add more cities..." style="flex: 1;" />
+                            <button id="icaAddCityBtn" class="ica-btn-primary" style="padding: 18px 30px; white-space: nowrap; border-radius: 20px;">➕ Add</button>
+                        </div>
+                        <div class="ica-suggestions" id="icaSuggestions"></div>
+                    </div>
+                </div>
+
+                <!-- ICA Context Engine Panel -->
+                <div class="ica-context-engine" id="icaContextEngine" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">🧠</div>
+                        <h2>ICA Context Engine</h2>
+                        <p>Real-time intelligent weather analysis</p>
+                    </div>
+                    <div class="ica-metrics-grid" id="icaMetricsGrid">
+                        <!-- Metrics will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Advanced Comparison Visualization -->
+                <div class="ica-visualization-studio" id="icaVisualization" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">📊</div>
+                        <h2>Advanced Comparison Visualization</h2>
+                        <p>Interactive multi-dimensional weather analytics</p>
+                    </div>
+                    <div class="ica-charts-grid">
+                        <div class="ica-chart-card">
+                            <div class="ica-chart-header">
+                                <span class="ica-chart-icon">🌡️</span>
+                                <span>Temperature Comparison</span>
+                            </div>
+                            <canvas id="icaTempChart"></canvas>
+                        </div>
+                        <div class="ica-chart-card">
+                            <div class="ica-chart-header">
+                                <span class="ica-chart-icon">💧</span>
+                                <span>Humidity Analysis</span>
+                            </div>
+                            <canvas id="icaHumidityChart"></canvas>
+                        </div>
+                        <div class="ica-chart-card">
+                            <div class="ica-chart-header">
+                                <span class="ica-chart-icon">💨</span>
+                                <span>Wind Speed Comparison</span>
+                            </div>
+                            <canvas id="icaWindChart"></canvas>
+                        </div>
+                        <div class="ica-chart-card">
+                            <div class="ica-chart-header">
+                                <span class="ica-chart-icon">🎯</span>
+                                <span>Multi-Factor Radar</span>
+                            </div>
+                            <canvas id="icaRadarChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <div class="weather-container">
-                    <div class="section-header">
-                        <div class="section-icon">📊</div>
-                        <div class="section-title">Comparison Features</div>
+                <!-- AI Contextual Insights Panel -->
+                <div class="ica-insights-panel" id="icaInsights" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">🤖</div>
+                        <h2>AI Contextual Insights</h2>
+                        <p>Smart recommendations powered by machine learning</p>
                     </div>
-                    <div class="recommendations-grid">
-                        <div class="recommendation-card">
-                            <div class="rec-icon">🌡️</div>
-                            <div class="rec-content">
-                                <div class="rec-title">Temperature Comparison</div>
-                                <div class="rec-text">Side-by-side temperature analysis with heat maps and trend indicators.</div>
-                            </div>
+                    <div class="ica-insights-feed" id="icaInsightsFeed">
+                        <!-- AI insights will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Global Weather Map Experience -->
+                <div class="ica-world-map" id="icaWorldMap" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">🗺️</div>
+                        <h2>Global Weather Map</h2>
+                        <p>Interactive world weather visualization</p>
+                    </div>
+                    <div class="ica-map-container">
+                        <div class="ica-map-canvas" id="icaMapCanvas">
+                            <!-- Map markers will be generated here -->
                         </div>
-                        <div class="recommendation-card">
-                            <div class="rec-icon">💧</div>
-                            <div class="rec-content">
-                                <div class="rec-title">Humidity & Precipitation</div>
-                                <div class="rec-text">Compare moisture levels and rainfall patterns across selected cities.</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-card">
-                            <div class="rec-icon">🌪️</div>
-                            <div class="rec-content">
-                                <div class="rec-title">Wind Conditions</div>
-                                <div class="rec-text">Analyze wind speed and direction differences between locations.</div>
-                            </div>
-                        </div>
-                        <div class="recommendation-card">
-                            <div class="rec-icon">☀️</div>
-                            <div class="rec-content">
-                                <div class="rec-title">Daylight Hours</div>
-                                <div class="rec-text">Compare sunrise, sunset times and total daylight duration.</div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Timeline Intelligence -->
+                <div class="ica-timeline" id="icaTimeline" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">⏰</div>
+                        <h2>Weather Timeline Intelligence</h2>
+                        <p>24-hour weather evolution across cities</p>
+                    </div>
+                    <div class="ica-timeline-grid" id="icaTimelineGrid">
+                        <!-- Timeline cards will be generated here -->
+                    </div>
+                </div>
+
+                <!-- ICA Predictive Analytics -->
+                <div class="ica-predictive" id="icaPredictive" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">🔮</div>
+                        <h2>ICA Predictive Analytics</h2>
+                        <p>Future weather risk assessment and forecasting</p>
+                    </div>
+                    <div class="ica-predictive-grid" id="icaPredictiveGrid">
+                        <!-- Predictive cards will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Smart Weather Recommendation Engine -->
+                <div class="ica-recommendations" id="icaRecommendations" style="display: none;">
+                    <div class="ica-section-header">
+                        <div class="ica-section-icon">💡</div>
+                        <h2>Smart Weather Recommendations</h2>
+                        <p>Personalized insights for optimal decision-making</p>
+                    </div>
+                    <div class="ica-recommendations-grid" id="icaRecommendationsGrid">
+                        <!-- Recommendations will be generated here -->
                     </div>
                 </div>
             </div>
@@ -11930,6 +13627,9 @@
 
     <!-- ICA Stock Market Studio JavaScript -->
     <script src="stock-market.js"></script>
+
+    <!-- ICA Studio - Multi-City Compare JavaScript -->
+    <script src="ica-studio.js"></script>
 
 </body>
 </html>
