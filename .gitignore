@@ -100,6 +100,9 @@ application-local.properties
 application-dev.properties
 application-prod.properties
 
+# Sensitive configuration files with API keys and tokens
+src/main/resources/application.properties
+
 # Logs
 logs/
 *.log.*

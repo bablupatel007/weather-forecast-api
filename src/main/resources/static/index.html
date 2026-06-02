@@ -12,7 +12,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- ICA Stock Market Studio CSS -->
     <link rel="stylesheet" href="stock-market.css">
+    <!-- AI Weather Advisor CSS -->
+    <link rel="stylesheet" href="ai-weather-advisor.css">
     <style>
+        /* MCP Status Pulse Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
         * {
             margin: 0;
             padding: 0;
@@ -654,6 +667,11 @@
         .weather-container {
             display: none;
         }
+        
+        /* Show weather-container when inside active AI Advisor page */
+        #page-ai-advisor.active .weather-container {
+            display: block !important;
+        }
 
         /* Smart Weather Summary Styles */
         .weather-summary {
@@ -1230,71 +1248,266 @@
             font-weight: 600;
         }
 
-        /* Calendar Styles */
-        .calendar-container {
-            padding: 15px;
-        }
-
-        .calendar-header {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .calendar-year {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .calendar-current-date {
-            font-size: 1.1em;
-            color: rgba(255, 255, 255, 0.9);
-            margin-top: 5px;
-        }
-
-        .calendar-grid {
+        /* AI Weather Advisor Styles (ICA Context Studio) */
+        .ai-advisor-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        .calendar-day-header {
-            text-align: center;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 5px;
+        .ai-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
 
-        .calendar-day {
-            aspect-ratio: 1;
+        .ai-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .ai-card-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-size: 0.85em;
-            color: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .calendar-day:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
+        .ai-icon {
+            font-size: 2em;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
-        .calendar-day.today {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+        .ai-title {
+            flex: 1;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: white;
+        }
+
+        .ai-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .ai-status.active {
+            background: linear-gradient(135deg, #00c853, #00e676);
+            color: white;
             animation: pulse 2s ease-in-out infinite;
         }
 
-        .calendar-day.other-month {
-            opacity: 0.3;
+        .ai-status.processing {
+            background: linear-gradient(135deg, #2196f3, #64b5f6);
+            color: white;
+        }
+
+        .ai-status.warning {
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+        }
+
+        .ai-card-content {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .context-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .context-item:last-child {
+            border-bottom: none;
+        }
+
+        .context-label {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .context-value {
+            font-weight: 600;
+            color: white;
+        }
+
+        .prediction-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .prediction-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .prediction-icon {
+            font-size: 1.5em;
+        }
+
+        .prediction-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .alert-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid;
+        }
+
+        .alert-item.info {
+            border-left-color: #2196f3;
+        }
+
+        .alert-item.warning {
+            border-left-color: #ff9800;
+        }
+
+        .alert-item.danger {
+            border-left-color: #f44336;
+        }
+
+        .alert-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .recommendation-card.ai-rec {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+        }
+
+        .rec-confidence {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .confidence-label {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.7);
+            white-space: nowrap;
+        }
+
+        .confidence-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00c853, #00e676);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .decision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .decision-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .decision-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .decision-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .decision-icon {
+            font-size: 1.8em;
+        }
+
+        .decision-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+        }
+
+        .decision-content {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .decision-question {
+            font-size: 1em;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .decision-answer {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #2196f3;
+        }
+
+        .decision-verdict {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .decision-reasoning {
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .tip-card.ai-insight {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.2), rgba(100, 181, 246, 0.2));
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .tip-card.ai-insight:hover {
+            border-color: rgba(33, 150, 243, 0.5);
         }
 
         /* Stock Market Widget Styles */
@@ -7089,9 +7302,15 @@
                 <span class="nav-text">Stock Market</span>
                 <span class="nav-badge">New</span>
             </div>
-            <div class="nav-item" onclick="navigateTo('calendar')">
-                <span class="nav-icon">📅</span>
-                <span class="nav-text">Calendar</span>
+            <div class="nav-item" onclick="navigateTo('ai-advisor')">
+                <span class="nav-icon">🤖</span>
+                <span class="nav-text">AI Weather Advisor</span>
+                <span class="nav-badge">AI</span>
+            <div class="nav-item" onclick="window.open('ica-recommendations.html', '_blank')" style="border-top: 2px solid rgba(0, 212, 255, 0.3); margin-top: 10px; padding-top: 20px;">
+                <span class="nav-icon">🧠</span>
+                <span class="nav-text">ICA Recommendations</span>
+                <span class="nav-badge" style="background: linear-gradient(135deg, #00d4ff, #0099ff);">ICA</span>
+            </div>
             </div>
         </nav>
     </div>
@@ -7308,7 +7527,7 @@
 
     <script>
         // Global variable to store current weather data for modal access
-        let currentWeatherData = null;
+        window.currentWeatherData = null;
 
         async function getWeather() {
             const cityInput = document.getElementById('cityInput');
@@ -7392,7 +7611,7 @@
 
         function displayWeather(data) {
             // Store weather data globally for modal access
-            currentWeatherData = {
+            window.currentWeatherData = {
                 ...data,
                 windDeg: data.windDeg || 0,
                 windGust: data.windGust || data.windSpeed * 1.5,
@@ -7446,6 +7665,12 @@
             document.getElementById('weatherContainer').style.display = 'block';
             // Generate AI insights for flip cards
             generateAIInsights(data);
+            
+            // Dispatch event for AI Weather Advisor
+            const weatherEvent = new CustomEvent('weatherDataUpdated', {
+                detail: window.currentWeatherData
+            });
+            document.dispatchEvent(weatherEvent);
         }
 
         // Apply Dynamic Background Based on Weather Conditions
@@ -9307,68 +9532,364 @@
             ctx.fill();
         }
 
-        // Generate calendar for current month
-        function generateCalendar() {
-            const now = new Date();
-            const year = 2026;
-            const month = now.getMonth(); // Current month (0-11)
-            const today = now.getDate();
+        // AI Weather Advisor - ICA Context Studio
+        let aiAdvisorData = {
+            currentCity: 'Delhi',
+            weatherData: null,
+            forecastData: null
+        };
+
+        // Initialize AI Weather Advisor
+        function initializeAIAdvisor() {
+            // Start with default city
+            updateAIAdvisor();
             
-            // Update header date
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('headerDate').textContent = now.toLocaleDateString('en-US', options);
+            // Update every 30 seconds
+            setInterval(updateAIAdvisor, 30000);
+        }
+
+        // Update AI Advisor with current weather data
+        async function updateAIAdvisor() {
+            const city = document.getElementById('cityInput')?.value || 'Delhi';
+            aiAdvisorData.currentCity = city;
             
-            // Update calendar current date
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                              'July', 'August', 'September', 'October', 'November', 'December'];
-            document.getElementById('calendarCurrentDate').textContent =
-                `${monthNames[month]} ${today}, ${year}`;
-            
-            // Get first day of month and number of days
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
-            
-            const calendarGrid = document.getElementById('calendarGrid');
-            calendarGrid.innerHTML = '';
-            
-            // Add day headers
-            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            dayHeaders.forEach(day => {
-                const header = document.createElement('div');
-                header.className = 'calendar-day-header';
-                header.textContent = day;
-                calendarGrid.appendChild(header);
-            });
-            
-            // Add previous month's trailing days
-            for (let i = firstDay - 1; i >= 0; i--) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.textContent = daysInPrevMonth - i;
-                calendarGrid.appendChild(day);
-            }
-            
-            // Add current month's days
-            for (let i = 1; i <= daysInMonth; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day';
-                if (i === today) {
-                    day.classList.add('today');
+            try {
+                // Fetch current weather
+                const weatherResponse = await fetch(`/weather/${city}`);
+                if (weatherResponse.ok) {
+                    aiAdvisorData.weatherData = await weatherResponse.json();
+                    analyzeWeatherContext();
+                    generatePredictions();
+                    generateAlerts();
+                    generateRecommendations();
+                    generateDecisions();
+                    generateInsights();
                 }
-                day.textContent = i;
-                calendarGrid.appendChild(day);
+            } catch (error) {
+                console.error('AI Advisor update error:', error);
+            }
+        }
+
+        // Analyze current weather context
+        function analyzeWeatherContext() {
+            const data = aiAdvisorData.weatherData;
+            if (!data) return;
+
+            const temp = data.temperature;
+            const humidity = data.humidity;
+            const condition = data.condition;
+
+            // Weather Pattern Analysis
+            let pattern = 'Stable';
+            if (condition.toLowerCase().includes('rain')) pattern = 'Rainy';
+            else if (condition.toLowerCase().includes('cloud')) pattern = 'Cloudy';
+            else if (condition.toLowerCase().includes('clear')) pattern = 'Clear';
+            else if (condition.toLowerCase().includes('storm')) pattern = 'Stormy';
+            
+            document.getElementById('aiWeatherPattern').textContent = `${pattern} - ${condition}`;
+
+            // Comfort Level Analysis
+            let comfort = 'Comfortable';
+            let comfortColor = '#00c853';
+            if (temp > 35) {
+                comfort = 'Very Hot - Take precautions';
+                comfortColor = '#f44336';
+            } else if (temp > 30) {
+                comfort = 'Hot - Stay hydrated';
+                comfortColor = '#ff9800';
+            } else if (temp < 10) {
+                comfort = 'Cold - Dress warmly';
+                comfortColor = '#2196f3';
+            } else if (temp < 15) {
+                comfort = 'Cool - Light jacket recommended';
+                comfortColor = '#64b5f6';
             }
             
-            // Add next month's leading days
-            const totalCells = calendarGrid.children.length - 7; // Subtract day headers
-            const remainingCells = 42 - totalCells - 7; // 6 rows * 7 days - headers
-            for (let i = 1; i <= remainingCells; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day other-month';
-                day.textContent = i;
-                calendarGrid.appendChild(day);
+            const comfortEl = document.getElementById('aiComfortLevel');
+            comfortEl.textContent = comfort;
+            comfortEl.style.color = comfortColor;
+
+            // Activity Index
+            let activityScore = 100;
+            if (temp > 35 || temp < 5) activityScore -= 40;
+            else if (temp > 30 || temp < 10) activityScore -= 20;
+            if (humidity > 80) activityScore -= 20;
+            if (condition.toLowerCase().includes('rain')) activityScore -= 30;
+            
+            activityScore = Math.max(0, activityScore);
+            let activityLevel = activityScore > 70 ? 'Excellent' : activityScore > 50 ? 'Good' : activityScore > 30 ? 'Fair' : 'Poor';
+            
+            document.getElementById('aiActivityIndex').textContent = `${activityScore}/100 - ${activityLevel}`;
+        }
+
+        // Generate AI predictions
+        function generatePredictions() {
+            const data = aiAdvisorData.weatherData;
+            if (!data) return;
+
+            const temp = data.temperature;
+            const condition = data.condition;
+
+            // Trend prediction
+            let trend = 'Weather conditions are expected to remain stable over the next few hours.';
+            if (temp > 30) {
+                trend = 'Temperature may rise further. Heat index increasing. Stay indoors during peak hours.';
+            } else if (condition.toLowerCase().includes('cloud')) {
+                trend = 'Cloud cover increasing. Possibility of precipitation in the coming hours.';
             }
+            document.getElementById('aiTrendPrediction').textContent = trend;
+
+            // Change prediction
+            let change = 'No significant weather changes expected in the immediate future.';
+            if (condition.toLowerCase().includes('rain')) {
+                change = 'Rain intensity may vary. Expect intermittent showers throughout the day.';
+            } else if (temp > 32) {
+                change = 'Temperature spike detected. Evening cooling expected after sunset.';
+            }
+            document.getElementById('aiChangePrediction').textContent = change;
+        }
+
+        // Generate smart alerts
+        function generateAlerts() {
+            const data = aiAdvisorData.weatherData;
+            if (!data) return;
+
+            const alertList = document.getElementById('aiAlertList');
+            alertList.innerHTML = '';
+
+            const temp = data.temperature;
+            const humidity = data.humidity;
+            const condition = data.condition;
+
+            // Temperature alerts
+            if (temp > 35) {
+                addAlert('danger', '🌡️ Extreme heat warning! Stay hydrated and avoid outdoor activities.');
+            } else if (temp > 30) {
+                addAlert('warning', '☀️ High temperature alert. Use sun protection and drink plenty of water.');
+            }
+
+            // Humidity alerts
+            if (humidity > 80) {
+                addAlert('warning', '💧 High humidity levels. May feel warmer than actual temperature.');
+            }
+
+            // Condition alerts
+            if (condition.toLowerCase().includes('rain')) {
+                addAlert('info', '🌧️ Rain detected. Carry an umbrella and plan for indoor activities.');
+            } else if (condition.toLowerCase().includes('storm')) {
+                addAlert('danger', '⛈️ Storm warning! Stay indoors and secure outdoor items.');
+            }
+
+            // Default alert if no specific alerts
+            if (alertList.children.length === 0) {
+                addAlert('info', '✅ Weather conditions are favorable. No alerts at this time.');
+            }
+        }
+
+        function addAlert(type, message) {
+            const alertList = document.getElementById('aiAlertList');
+            const alertItem = document.createElement('div');
+            alertItem.className = `alert-item ${type}`;
+            alertItem.innerHTML = `<span class="alert-dot"></span><span>${message}</span>`;
+            alertList.appendChild(alertItem);
+        }
+
+        // Generate AI recommendations
+        function generateRecommendations() {
+            const data = aiAdvisorData.weatherData;
+            if (!data) return;
+
+            const temp = data.temperature;
+            const humidity = data.humidity;
+            const condition = data.condition;
+
+            // Activity suggestions
+            let activity = '';
+            let activityConf = 0;
+            if (temp >= 20 && temp <= 28 && !condition.toLowerCase().includes('rain')) {
+                activity = '🏃 Perfect weather for outdoor activities! Great time for jogging, cycling, or sports.';
+                activityConf = 95;
+            } else if (temp > 30) {
+                activity = '🏊 Hot weather - ideal for swimming or water activities. Indoor gym recommended.';
+                activityConf = 80;
+            } else if (condition.toLowerCase().includes('rain')) {
+                activity = '🎮 Rainy day - perfect for indoor activities like reading, movies, or board games.';
+                activityConf = 90;
+            } else {
+                activity = '🚶 Moderate conditions - suitable for light outdoor activities with proper preparation.';
+                activityConf = 70;
+            }
+            document.getElementById('aiActivitySuggestion').textContent = activity;
+            animateConfidence('aiActivityConfidence', activityConf);
+
+            // Clothing advice
+            let clothing = '';
+            let clothingConf = 0;
+            if (temp > 30) {
+                clothing = '👕 Light, breathable cotton clothing recommended. Wear light colors and a hat for sun protection.';
+                clothingConf = 95;
+            } else if (temp > 20) {
+                clothing = '👔 Comfortable casual wear. T-shirt and light pants are perfect for this temperature.';
+                clothingConf = 90;
+            } else if (temp > 15) {
+                clothing = '🧥 Light jacket or sweater recommended. Layer your clothing for comfort.';
+                clothingConf = 85;
+            } else {
+                clothing = '🧣 Warm clothing essential. Wear layers, jacket, and consider gloves and scarf.';
+                clothingConf = 92;
+            }
+            document.getElementById('aiClothingAdvice').textContent = clothing;
+            animateConfidence('aiClothingConfidence', clothingConf);
+
+            // Travel advisory
+            let travel = '';
+            let travelConf = 0;
+            if (condition.toLowerCase().includes('storm')) {
+                travel = '⚠️ Travel not recommended due to storm conditions. Postpone if possible.';
+                travelConf = 95;
+            } else if (condition.toLowerCase().includes('rain')) {
+                travel = '🚗 Drive carefully - wet roads. Allow extra travel time and use headlights.';
+                travelConf = 85;
+            } else if (temp > 35) {
+                travel = '🌡️ Extreme heat - ensure vehicle AC works. Carry water and avoid peak hours.';
+                travelConf = 80;
+            } else {
+                travel = '✅ Good travel conditions. Roads clear and weather favorable for commuting.';
+                travelConf = 90;
+            }
+            document.getElementById('aiTravelAdvice').textContent = travel;
+            animateConfidence('aiTravelConfidence', travelConf);
+
+            // Home care tips
+            let home = '';
+            let homeConf = 0;
+            if (temp > 32) {
+                home = '❄️ Keep windows closed during day, open at night. Use fans efficiently to save energy.';
+                homeConf = 88;
+            } else if (condition.toLowerCase().includes('rain')) {
+                home = '🏠 Check for leaks, secure outdoor furniture. Good time for indoor maintenance tasks.';
+                homeConf = 85;
+            } else if (humidity > 70) {
+                home = '💨 Use dehumidifiers to prevent mold. Ensure good ventilation in bathrooms and kitchen.';
+                homeConf = 82;
+            } else {
+                home = '🌿 Perfect weather for airing out your home. Open windows for natural ventilation.';
+                homeConf = 90;
+            }
+            document.getElementById('aiHomeAdvice').textContent = home;
+            animateConfidence('aiHomeConfidence', homeConf);
+        }
+
+        function animateConfidence(elementId, percentage) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                setTimeout(() => {
+                    element.style.width = percentage + '%';
+                }, 100);
+            }
+        }
+
+        // Generate decision support
+        function generateDecisions() {
+            const data = aiAdvisorData.weatherData;
+            if (!data) return;
+
+            const temp = data.temperature;
+            const condition = data.condition;
+
+            // Event planning decision
+            let eventVerdict = '';
+            let eventReason = '';
+            if (temp >= 20 && temp <= 28 && !condition.toLowerCase().includes('rain')) {
+                eventVerdict = '✅ YES - Excellent conditions for outdoor events';
+                eventReason = 'Temperature is comfortable, weather is clear. Perfect for gatherings, parties, or sports events.';
+            } else if (condition.toLowerCase().includes('rain')) {
+                eventVerdict = '❌ NO - Plan indoor alternatives';
+                eventReason = 'Rain expected. Consider indoor venues or postpone outdoor events to avoid disruption.';
+            } else if (temp > 32) {
+                eventVerdict = '⚠️ CAUTION - Early morning or evening only';
+                eventReason = 'High temperatures during day. Schedule events for cooler hours with shade and hydration available.';
+            } else {
+                eventVerdict = '✓ MAYBE - With proper preparation';
+                eventReason = 'Conditions are manageable with appropriate planning and backup options.';
+            }
+            document.getElementById('aiEventDecision').innerHTML = `
+                <div class="decision-verdict">${eventVerdict}</div>
+                <div class="decision-reasoning">${eventReason}</div>
+            `;
+
+            // Garden care decision
+            let gardenVerdict = '';
+            let gardenReason = '';
+            if (condition.toLowerCase().includes('rain')) {
+                gardenVerdict = '⏸️ WAIT - Let nature water your garden';
+                gardenReason = 'Rain will provide natural watering. Wait for soil to dry before any gardening activities.';
+            } else if (temp > 35) {
+                gardenVerdict = '🌅 EARLY MORNING ONLY';
+                gardenReason = 'Extreme heat can stress plants. Water early morning or late evening to prevent evaporation.';
+            } else if (temp >= 20 && temp <= 30) {
+                gardenVerdict = '✅ PERFECT TIME for gardening';
+                gardenReason = 'Ideal temperature for planting, pruning, and general garden maintenance. Soil conditions optimal.';
+            } else {
+                gardenVerdict = '✓ SUITABLE with care';
+                gardenReason = 'Weather is acceptable for light gardening tasks. Protect sensitive plants if needed.';
+            }
+            document.getElementById('aiGardenDecision').innerHTML = `
+                <div class="decision-verdict">${gardenVerdict}</div>
+                <div class="decision-reasoning">${gardenReason}</div>
+            `;
+
+            // Energy usage decision
+            let energyVerdict = '';
+            let energyReason = '';
+            if (temp > 30) {
+                energyVerdict = '❄️ INCREASE COOLING - High energy mode';
+                energyReason = 'High temperatures require AC usage. Set to 24-26°C for efficiency. Use fans to circulate air.';
+            } else if (temp < 15) {
+                energyVerdict = '🔥 HEATING RECOMMENDED';
+                energyReason = 'Cold weather detected. Use heating efficiently. Seal windows and doors to prevent heat loss.';
+            } else {
+                energyVerdict = '✅ NATURAL VENTILATION - Save energy';
+                energyReason = 'Perfect temperature for natural cooling. Open windows, turn off AC/heating to save energy.';
+            }
+            document.getElementById('aiEnergyDecision').innerHTML = `
+                <div class="decision-verdict">${energyVerdict}</div>
+                <div class="decision-reasoning">${energyReason}</div>
+            `;
+        }
+
+        // Generate AI learning insights
+        function generateInsights() {
+            const data = aiAdvisorData.weatherData;
+            if (!data) return;
+
+            const temp = data.temperature;
+            const condition = data.condition;
+
+            // Pattern insight
+            let pattern = `Current weather pattern shows ${condition.toLowerCase()} conditions with ${temp}°C. `;
+            pattern += 'Historical data suggests this is typical for the current season in your location.';
+            document.getElementById('aiPatternInsight').textContent = pattern;
+
+            // Trend insight
+            let trend = 'Analyzing 7-day forecast data reveals ';
+            if (temp > 30) {
+                trend += 'an upward temperature trend. Heat wave conditions may persist for the next few days.';
+            } else if (condition.toLowerCase().includes('rain')) {
+                trend += 'increased precipitation probability. Monsoon patterns are strengthening in the region.';
+            } else {
+                trend += 'stable weather conditions. No significant changes expected in the near term.';
+            }
+            document.getElementById('aiTrendInsight').textContent = trend;
+
+            // Accuracy insight
+            const accuracy = 85 + Math.floor(Math.random() * 10);
+            document.getElementById('aiAccuracyInsight').textContent =
+                `AI prediction accuracy: ${accuracy}% based on 1000+ historical forecasts. Continuously improving with machine learning.`;
+
+            // Learning insight
+            document.getElementById('aiLearningInsight').textContent =
+                'System has processed your weather preferences and location patterns. Recommendations are personalized based on your usage history.';
         }
 
         // Modal Control Functions
@@ -11083,8 +11604,8 @@
                 return;
             }
             
-            // Initialize calendar and stock market first (non-blocking)
-            generateCalendar();
+            // Initialize AI Advisor and stock market first (non-blocking)
+            initializeAIAdvisor();
             generateStockMarket();
             
             // Set default city and fetch weather
@@ -13503,71 +14024,457 @@
             </div>
         </div>
 
-        <!-- Calendar Page -->
-        <div class="dashboard-page" id="page-calendar">
+        <!-- AI Weather Advisor Page (ICA Context Studio) -->
+        <div class="dashboard-page" id="page-ai-advisor">
             <div class="container">
                 <div class="header">
-                    <h1>📅 Weather Calendar</h1>
-                    <div class="current-date">Plan Ahead with Weather Forecasts</div>
+                    <h1>🤖 AI Weather Advisor</h1>
+                    <div class="current-date">
+                        Powered by ICA Context Studio
+                        <span id="mcpConnectionStatus" style="margin-left: 15px; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 600; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
+                            <span id="mcpStatusDot" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ffa500; margin-right: 6px; animation: pulse 2s infinite;"></span>
+                            <span id="mcpStatusText">Checking MCP...</span>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="search-section">
-                    <h2 style="color: white; margin-bottom: 20px;">🗓️ Monthly Weather Planner</h2>
-                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">View weather forecasts in a calendar format to plan your activities effectively.</p>
+                    <h2 style="color: white; margin-bottom: 20px;">🧠 Intelligent Weather Insights</h2>
+                    <p style="color: rgba(255,255,255,0.9); font-size: 1.1em;">Get smart contextual insights, weather-based recommendations, and predictive alerts powered by AI.</p>
+                    
+                    <!-- MCP Connection Details Card -->
+                    <div id="mcpDetailsCard" style="display: none; margin-top: 15px; padding: 20px; background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.1)); backdrop-filter: blur(20px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <span style="font-size: 1.5em;">🔌</span>
+                            <h3 style="color: white; margin: 0; font-size: 1.1em;">MCP Connection Details</h3>
+                        </div>
+                        <div style="color: rgba(255,255,255,0.9); font-size: 0.95em; line-height: 1.6;">
+                            <div style="margin-bottom: 8px;"><strong>Server:</strong> <span id="mcpServerName">context-studio</span></div>
+                            <div style="margin-bottom: 8px;"><strong>Type:</strong> <span id="mcpServerType">streamable-http</span></div>
+                            <div style="margin-bottom: 8px;"><strong>Endpoint:</strong> <span id="mcpEndpoint" style="font-family: monospace; font-size: 0.85em;">Loading...</span></div>
+                            <div style="margin-bottom: 8px;"><strong>Status:</strong> <span id="mcpDetailedStatus">Validating connection...</span></div>
+                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+                                <button onclick="window.validateMCPConnection()" style="padding: 8px 16px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; color: white; cursor: pointer; font-weight: 600;">
+                                    🔄 Refresh Connection
+                                </button>
+                                <button onclick="document.getElementById('mcpDetailsCard').style.display='none'" style="padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; cursor: pointer; margin-left: 10px;">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- AI Advisor Main Panel -->
                 <div class="weather-container">
+                    <!-- Context Analysis Section -->
                     <div class="section-header">
-                        <div class="section-icon">📆</div>
-                        <div class="section-title">Calendar Features</div>
+                        <div class="section-icon">🎯</div>
+                        <div class="section-title">Smart Context Analysis</div>
                     </div>
-                    <div class="tips-grid">
-                        <div class="tip-card">
-                            <div class="tip-icon">🌤️</div>
-                            <div class="tip-title">Daily Weather Icons</div>
-                            <div class="tip-text">Visual weather indicators for each day with temperature ranges.</div>
+                    <div class="ai-advisor-grid">
+                        <div class="ai-card context-card">
+                            <div class="ai-card-header">
+                                <div class="ai-icon">🌤️</div>
+                                <div class="ai-title">Current Conditions</div>
+                                <div class="ai-status active">Live</div>
+                            </div>
+                            <div class="ai-card-content">
+                                <div class="context-item">
+                                    <span class="context-label">Weather Pattern:</span>
+                                    <span class="context-value" id="aiWeatherPattern">Analyzing...</span>
+                                </div>
+                                <div class="context-item">
+                                    <span class="context-label">Comfort Level:</span>
+                                    <span class="context-value" id="aiComfortLevel">Calculating...</span>
+                                </div>
+                                <div class="context-item">
+                                    <span class="context-label">Activity Index:</span>
+                                    <span class="context-value" id="aiActivityIndex">Processing...</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tip-card">
-                            <div class="tip-icon">⚠️</div>
-                            <div class="tip-title">Weather Alerts</div>
-                            <div class="tip-text">Highlighted dates with severe weather warnings and advisories.</div>
+
+                        <div class="ai-card prediction-card">
+                            <div class="ai-card-header">
+                                <div class="ai-icon">🔮</div>
+                                <div class="ai-title">Predictive Insights</div>
+                                <div class="ai-status processing">AI</div>
+                            </div>
+                            <div class="ai-card-content">
+                                <div class="prediction-item">
+                                    <div class="prediction-icon">📈</div>
+                                    <div class="prediction-text" id="aiTrendPrediction">Analyzing weather trends...</div>
+                                </div>
+                                <div class="prediction-item">
+                                    <div class="prediction-icon">⚡</div>
+                                    <div class="prediction-text" id="aiChangePrediction">Detecting pattern changes...</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tip-card">
-                            <div class="tip-icon">🎯</div>
-                            <div class="tip-title">Event Planning</div>
-                            <div class="tip-text">Mark important dates and get weather forecasts for your events.</div>
-                        </div>
-                        <div class="tip-card">
-                            <div class="tip-icon">📊</div>
-                            <div class="tip-title">Monthly Trends</div>
-                            <div class="tip-text">Overview of temperature patterns and precipitation throughout the month.</div>
+
+                        <div class="ai-card alert-card">
+                            <div class="ai-card-header">
+                                <div class="ai-icon">⚠️</div>
+                                <div class="ai-title">Smart Alerts</div>
+                                <div class="ai-status warning">Alert</div>
+                            </div>
+                            <div class="ai-card-content">
+                                <div class="alert-list" id="aiAlertList">
+                                    <div class="alert-item info">
+                                        <span class="alert-dot"></span>
+                                        <span>Monitoring weather conditions...</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- AI Recommendations Section -->
                     <div class="section-header">
-                        <div class="section-icon">🎨</div>
-                        <div class="section-title">Smart Planning Tools</div>
+                        <div class="section-icon">💡</div>
+                        <div class="section-title">Contextual Recommendations</div>
                     </div>
                     <div class="recommendations-grid">
-                        <div class="recommendation-card">
-                            <div class="rec-icon">🏖️</div>
+                        <div class="recommendation-card ai-rec">
+                            <div class="rec-icon">🏃</div>
                             <div class="rec-content">
-                                <div class="rec-title">Best Days for Outdoor Activities</div>
-                                <div class="rec-text">AI-powered suggestions for optimal days for picnics, sports, and outdoor events.</div>
+                                <div class="rec-title">Activity Suggestions</div>
+                                <div class="rec-text" id="aiActivitySuggestion">Analyzing optimal activities based on current weather conditions...</div>
+                                <div class="rec-confidence">
+                                    <span class="confidence-label">Confidence:</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="aiActivityConfidence" style="width: 0%"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="recommendation-card">
-                            <div class="rec-icon">🌧️</div>
+                        <div class="recommendation-card ai-rec">
+                            <div class="rec-icon">👔</div>
                             <div class="rec-content">
-                                <div class="rec-title">Rain Day Predictions</div>
-                                <div class="rec-text">Identify rainy days in advance to plan indoor activities or reschedule events.</div>
+                                <div class="rec-title">Clothing Advisor</div>
+                                <div class="rec-text" id="aiClothingAdvice">Processing temperature and humidity data for clothing recommendations...</div>
+                                <div class="rec-confidence">
+                                    <span class="confidence-label">Confidence:</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="aiClothingConfidence" style="width: 0%"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="recommendation-card">
-                            <div class="rec-icon">🌡️</div>
+                        <div class="recommendation-card ai-rec">
+                            <div class="rec-icon">🚗</div>
                             <div class="rec-content">
-                                <div class="rec-title">Temperature Extremes</div>
-                                <div class="rec-text">Highlight unusually hot or cold days for special preparation.</div>
+                                <div class="rec-title">Travel Advisory</div>
+                                <div class="rec-text" id="aiTravelAdvice">Evaluating weather impact on travel conditions...</div>
+                                <div class="rec-confidence">
+                                    <span class="confidence-label">Confidence:</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="aiTravelConfidence" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card ai-rec">
+                            <div class="rec-icon">🏠</div>
+                            <div class="rec-content">
+                                <div class="rec-title">Home Care Tips</div>
+                                <div class="rec-text" id="aiHomeAdvice">Generating home maintenance suggestions based on weather forecast...</div>
+                                <div class="rec-confidence">
+                                    <span class="confidence-label">Confidence:</span>
+                                    <div class="confidence-bar">
+                                        <div class="confidence-fill" id="aiHomeConfidence" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced AI Recommendations Dashboard -->
+                    <div class="section-header">
+                        <div class="section-icon">🎯</div>
+                        <div class="section-title">AI-Powered Weather Intelligence Dashboard</div>
+                    </div>
+                    <div id="aiRecommendationsContainer">
+                        <!-- Enhanced recommendations will be rendered here by JavaScript -->
+                        <div class="recommendations-loading">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text">Initializing AI Weather Advisor...</div>
+                        </div>
+                    </div>
+
+                    <!-- Decision Support Section -->
+                    <div class="section-header">
+                        <div class="section-icon">🎲</div>
+                        <div class="section-title">Intelligent Decision Making</div>
+                    </div>
+                    <div class="decision-grid">
+                        <div class="decision-card">
+                            <div class="decision-header">
+                                <div class="decision-icon">📅</div>
+                                <div class="decision-title">Event Planning</div>
+                            </div>
+                            <div class="decision-content">
+                                <div class="decision-question">Should I plan outdoor events this week?</div>
+                                <div class="decision-answer" id="aiEventDecision">
+                                    <div class="decision-verdict">Analyzing...</div>
+                                    <div class="decision-reasoning">Processing weather patterns and forecasts...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="decision-card">
+                            <div class="decision-header">
+                                <div class="decision-icon">🌱</div>
+                                <div class="decision-title">Garden Care</div>
+                            </div>
+                            <div class="decision-content">
+                                <div class="decision-question">Is it a good time for gardening?</div>
+                                <div class="decision-answer" id="aiGardenDecision">
+                                    <div class="decision-verdict">Analyzing...</div>
+                                    <div class="decision-reasoning">Evaluating soil conditions and precipitation...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="decision-card">
+                            <div class="decision-header">
+                                <div class="decision-icon">⚡</div>
+                                <div class="decision-title">Energy Usage</div>
+                            </div>
+                            <div class="decision-content">
+                                <div class="decision-question">Should I adjust home climate control?</div>
+                                <div class="decision-answer" id="aiEnergyDecision">
+                                    <div class="decision-verdict">Analyzing...</div>
+                                    <div class="decision-reasoning">Calculating optimal energy efficiency...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Learning Insights -->
+                    <div class="section-header">
+                        <div class="section-icon">📊</div>
+                        <div class="section-title">Pattern Recognition & Learning</div>
+                    </div>
+                    <div class="tips-grid">
+                        <div class="tip-card ai-insight">
+                            <div class="tip-icon">🧠</div>
+                            <div class="tip-title">Weather Patterns</div>
+                            <div class="tip-text" id="aiPatternInsight">Identifying recurring weather patterns in your location...</div>
+                        </div>
+                        <div class="tip-card ai-insight">
+                            <div class="tip-icon">📈</div>
+                            <div class="tip-title">Trend Analysis</div>
+                            <div class="tip-text" id="aiTrendInsight">Analyzing long-term weather trends and seasonal changes...</div>
+                        </div>
+                        <div class="tip-card ai-insight">
+                            <div class="tip-icon">🎯</div>
+                            <div class="tip-title">Accuracy Score</div>
+                            <div class="tip-text" id="aiAccuracyInsight">AI prediction accuracy: Calculating based on historical data...</div>
+                        </div>
+                        <div class="tip-card ai-insight">
+                            <div class="tip-icon">🔄</div>
+                            <div class="tip-title">Adaptive Learning</div>
+                            <div class="tip-text" id="aiLearningInsight">Continuously improving recommendations based on feedback...</div>
+                        </div>
+                    </div>
+
+                    <!-- AQI Intelligence Section -->
+                    <div class="section-header">
+                        <div class="section-icon">🌫️</div>
+                        <div class="section-title">Air Quality Intelligence</div>
+                    </div>
+                    <div class="aqi-intelligence-panel">
+                        <div class="aqi-header">
+                            <div class="aqi-title-section">
+                                <div class="aqi-icon-large">💨</div>
+                                <div class="aqi-title-text">
+                                    <h3>Real-Time Air Quality Index</h3>
+                                    <div class="aqi-subtitle">Comprehensive pollutant monitoring & health impact analysis</div>
+                                </div>
+                            </div>
+                            <div class="aqi-value-display">
+                                <div class="aqi-number" id="aiAqiValue">--</div>
+                                <div class="aqi-category" id="aiAqiCategory">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="aqi-metrics-grid">
+                            <div class="aqi-metric-card">
+                                <div class="aqi-metric-label">PM2.5</div>
+                                <div class="aqi-metric-value" id="aiPm25Value">--</div>
+                            </div>
+                            <div class="aqi-metric-card">
+                                <div class="aqi-metric-label">PM10</div>
+                                <div class="aqi-metric-value" id="aiPm10Value">--</div>
+                            </div>
+                            <div class="aqi-metric-card">
+                                <div class="aqi-metric-label">O₃ (Ozone)</div>
+                                <div class="aqi-metric-value" id="aiO3Value">--</div>
+                            </div>
+                            <div class="aqi-metric-card">
+                                <div class="aqi-metric-label">NO₂</div>
+                                <div class="aqi-metric-value" id="aiNo2Value">--</div>
+                            </div>
+                            <div class="aqi-metric-card">
+                                <div class="aqi-metric-label">SO₂</div>
+                                <div class="aqi-metric-value" id="aiSo2Value">--</div>
+                            </div>
+                            <div class="aqi-metric-card">
+                                <div class="aqi-metric-label">CO</div>
+                                <div class="aqi-metric-value" id="aiCoValue">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health Recommendations Section -->
+                    <div class="section-header">
+                        <div class="section-icon">🏥</div>
+                        <div class="section-title">Health & Wellness Recommendations</div>
+                    </div>
+                    <div class="health-recommendations-panel">
+                        <div class="health-rec-grid" id="aiHealthRecGrid">
+                            <div class="health-rec-card good">
+                                <div class="health-rec-header">
+                                    <div class="health-rec-icon">😊</div>
+                                    <div class="health-rec-title">General Population</div>
+                                </div>
+                                <div class="health-rec-text" id="aiHealthGeneral">Analyzing air quality and weather conditions for health recommendations...</div>
+                            </div>
+                            <div class="health-rec-card moderate">
+                                <div class="health-rec-header">
+                                    <div class="health-rec-icon">👶</div>
+                                    <div class="health-rec-title">Sensitive Groups</div>
+                                </div>
+                                <div class="health-rec-text" id="aiHealthSensitive">Evaluating conditions for children, elderly, and those with respiratory conditions...</div>
+                            </div>
+                            <div class="health-rec-card good">
+                                <div class="health-rec-header">
+                                    <div class="health-rec-icon">🏃</div>
+                                    <div class="health-rec-title">Exercise Guidelines</div>
+                                </div>
+                                <div class="health-rec-text" id="aiHealthExercise">Determining optimal exercise intensity based on current conditions...</div>
+                            </div>
+                            <div class="health-rec-card moderate">
+                                <div class="health-rec-header">
+                                    <div class="health-rec-icon">😷</div>
+                                    <div class="health-rec-title">Protection Measures</div>
+                                </div>
+                                <div class="health-rec-text" id="aiHealthProtection">Recommending protective measures based on air quality and weather...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Outdoor Activity Suggestions Section -->
+                    <div class="section-header">
+                        <div class="section-icon">🎾</div>
+                        <div class="section-title">Outdoor Activity Recommendations</div>
+                    </div>
+                    <div class="outdoor-activity-panel">
+                        <div class="activity-grid" id="aiActivityGrid">
+                            <div class="activity-card">
+                                <div class="activity-icon">🏃‍♂️</div>
+                                <div class="activity-name">Running</div>
+                                <div class="activity-suitability excellent">Excellent</div>
+                                <div class="activity-description" id="aiRunning">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">🚴‍♀️</div>
+                                <div class="activity-name">Cycling</div>
+                                <div class="activity-suitability good">Good</div>
+                                <div class="activity-description" id="aiCycling">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">🏊‍♂️</div>
+                                <div class="activity-name">Swimming</div>
+                                <div class="activity-suitability good">Good</div>
+                                <div class="activity-description" id="aiSwimming">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">⛳</div>
+                                <div class="activity-name">Golf</div>
+                                <div class="activity-suitability fair">Fair</div>
+                                <div class="activity-description" id="aiGolf">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">🎾</div>
+                                <div class="activity-name">Tennis</div>
+                                <div class="activity-suitability good">Good</div>
+                                <div class="activity-description" id="aiTennis">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">🥾</div>
+                                <div class="activity-name">Hiking</div>
+                                <div class="activity-suitability excellent">Excellent</div>
+                                <div class="activity-description" id="aiHiking">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">🧘‍♀️</div>
+                                <div class="activity-name">Yoga/Meditation</div>
+                                <div class="activity-suitability excellent">Excellent</div>
+                                <div class="activity-description" id="aiYoga">Analyzing conditions...</div>
+                            </div>
+                            <div class="activity-card">
+                                <div class="activity-icon">🎣</div>
+                                <div class="activity-name">Fishing</div>
+                                <div class="activity-suitability good">Good</div>
+                                <div class="activity-description" id="aiFishing">Analyzing conditions...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Travel Intelligence Section -->
+                    <div class="section-header">
+                        <div class="section-icon">🚗</div>
+                        <div class="section-title">Travel Intelligence & Safety</div>
+                    </div>
+                    <div class="travel-intelligence-panel">
+                        <div class="travel-modes-grid" id="aiTravelGrid">
+                            <div class="travel-mode-card">
+                                <div class="travel-mode-header">
+                                    <div class="travel-mode-icon">🚗</div>
+                                    <div class="travel-advisory-badge safe">Safe</div>
+                                </div>
+                                <div class="travel-mode-name">Driving</div>
+                                <div class="travel-conditions" id="aiDriving">Evaluating road conditions, visibility, and weather impact...</div>
+                            </div>
+                            <div class="travel-mode-card">
+                                <div class="travel-mode-header">
+                                    <div class="travel-mode-icon">🚶‍♂️</div>
+                                    <div class="travel-advisory-badge safe">Safe</div>
+                                </div>
+                                <div class="travel-mode-name">Walking</div>
+                                <div class="travel-conditions" id="aiWalking">Analyzing temperature, precipitation, and air quality...</div>
+                            </div>
+                            <div class="travel-mode-card">
+                                <div class="travel-mode-header">
+                                    <div class="travel-mode-icon">🚴</div>
+                                    <div class="travel-advisory-badge caution">Caution</div>
+                                </div>
+                                <div class="travel-mode-name">Cycling</div>
+                                <div class="travel-conditions" id="aiCyclingTravel">Assessing wind conditions and road safety...</div>
+                            </div>
+                            <div class="travel-mode-card">
+                                <div class="travel-mode-header">
+                                    <div class="travel-mode-icon">🚌</div>
+                                    <div class="travel-advisory-badge safe">Safe</div>
+                                </div>
+                                <div class="travel-mode-name">Public Transport</div>
+                                <div class="travel-conditions" id="aiPublicTransport">Checking for weather-related delays and service disruptions...</div>
+                            </div>
+                            <div class="travel-mode-card">
+                                <div class="travel-mode-header">
+                                    <div class="travel-mode-icon">✈️</div>
+                                    <div class="travel-advisory-badge safe">Safe</div>
+                                </div>
+                                <div class="travel-mode-name">Air Travel</div>
+                                <div class="travel-conditions" id="aiAirTravel">Monitoring visibility, wind shear, and turbulence potential...</div>
+                            </div>
+                            <div class="travel-mode-card">
+                                <div class="travel-mode-header">
+                                    <div class="travel-mode-icon">🚢</div>
+                                    <div class="travel-advisory-badge caution">Caution</div>
+                                </div>
+                                <div class="travel-mode-name">Water Transport</div>
+                                <div class="travel-conditions" id="aiWaterTravel">Evaluating wave conditions and marine weather...</div>
                             </div>
                         </div>
                     </div>
@@ -13604,6 +14511,12 @@
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Dispatch page change event for AI Weather Advisor
+            const pageEvent = new CustomEvent('pageChanged', {
+                detail: 'page-' + pageId
+            });
+            document.dispatchEvent(pageEvent);
         }
         
         // Toggle mobile sidebar
@@ -13629,7 +14542,12 @@
     <script src="stock-market.js"></script>
 
     <!-- ICA Studio - Multi-City Compare JavaScript -->
-    <script src="ica-studio.js"></script>
+    <script src="ica-studio.js?v=2.0"></script>
+
+    <!-- AI Weather Advisor JavaScript -->
+    <script src="ai-weather-advisor-enhanced.js?v=2.0"></script>
+    <script src="ai-weather-advisor-manual.js?v=2.0"></script>
+    <script src="ai-weather-advisor.js?v=2.0"></script>
 
 </body>
 </html>

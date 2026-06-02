@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Manual Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .recommendation-card {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+        .severity-good { border-left-color: #4CAF50; }
+        .severity-moderate { border-left-color: #FFC107; }
+        .severity-unhealthy_sensitive { border-left-color: #FF9800; }
+        .severity-unhealthy { border-left-color: #F44336; }
+        .severity-very_unhealthy { border-left-color: #9C27B0; }
+        .severity-hazardous { border-left-color: #8B0000; }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .success { color: #4CAF50; font-weight: bold; }
+        .error { color: #F44336; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Manual Recommendation Generator Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Script Loading Test</h2>
+        <div id="script-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Function Availability Test</h2>
+        <div id="function-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Sample Weather Data</h2>
+        <pre id="weather-data"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Generated Recommendations</h2>
+        <div id="recommendations-output"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Console Logs</h2>
+        <pre id="console-logs"></pre>
+    </div>
+
+    <!-- Load the manual recommendation generator -->
+    <script src="ai-weather-advisor-manual.js?v=2.0"></script>
+    <script src="ai-weather-advisor-enhanced.js?v=2.0"></script>
+    
+    <script>
+        // Capture console logs
+        const logs = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            logs.push(args.join(' '));
+            originalLog.apply(console, args);
+        };
+        
+        // Test 1: Script Loading
+        setTimeout(() => {
+            const scriptTest = document.getElementById('script-test');
+            if (typeof window.AIAdvisorManual !== 'undefined') {
+                scriptTest.innerHTML = '<p class="success">✅ ai-weather-advisor-manual.js loaded successfully</p>';
+            } else {
+                scriptTest.innerHTML = '<p class="error">❌ ai-weather-advisor-manual.js NOT loaded</p>';
+            }
+            
+            // Test 2: Function Availability
+            const functionTest = document.getElementById('function-test');
+            let functionsHTML = '';
+            if (window.AIAdvisorManual) {
+                functionsHTML += '<p class="success">✅ window.AIAdvisorManual exists</p>';
+                functionsHTML += '<ul>';
+                for (let key in window.AIAdvisorManual) {
+                    functionsHTML += `<li>${key}: ${typeof window.AIAdvisorManual[key]}</li>`;
+                }
+                functionsHTML += '</ul>';
+            } else {
+                functionsHTML = '<p class="error">❌ window.AIAdvisorManual does NOT exist</p>';
+            }
+            functionTest.innerHTML = functionsHTML;
+            
+            // Test 3: Sample Weather Data
+            const sampleWeather = {
+                city: 'Delhi',
+                temp: 27,
+                humidity: 57,
+                aqi: 93,
+                uv: 5,
+                rain: 0,
+                condition: 'haze'
+            };
+            document.getElementById('weather-data').textContent = JSON.stringify(sampleWeather, null, 2);
+            
+            // Test 4: Generate Recommendations
+            if (window.AIAdvisorManual && window.AIAdvisorManual.generateManualRecommendations) {
+                try {
+                    const recommendations = window.AIAdvisorManual.generateManualRecommendations(sampleWeather);
+                    const output = document.getElementById('recommendations-output');
+                    
+                    if (recommendations && recommendations.length > 0) {
+                        output.innerHTML = `<p class="success">✅ Generated ${recommendations.length} recommendations</p>`;
+                        recommendations.forEach(rec => {
+                            output.innerHTML += `
+                                <div class="recommendation-card severity-${rec.severity}">
+                                    <strong>${rec.category}</strong> (${rec.severity})<br>
+                                    ${rec.text}
+                                </div>
+                            `;
+                        });
+                    } else {
+                        output.innerHTML = '<p class="error">❌ No recommendations generated</p>';
+                    }
+                } catch (error) {
+                    document.getElementById('recommendations-output').innerHTML = 
+                        `<p class="error">❌ Error: ${error.message}</p><pre>${error.stack}</pre>`;
+                }
+            } else {
+                document.getElementById('recommendations-output').innerHTML = 
+                    '<p class="error">❌ generateManualRecommendations function not available</p>';
+            }
+            
+            // Test 5: Show Console Logs
+            document.getElementById('console-logs').textContent = logs.join('\n');
+        }, 500);
+    </script>
+</body>
+</html>

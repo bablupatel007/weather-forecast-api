@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "weather": "http://example.org/weather#",
+    "schema": "http://schema.org/",
+    "id": "@id",
+    "type": "@type",
+    "name": "schema:name",
+    "description": "schema:description",
+    "relatesTo": {
+      "@id": "weather:relatesTo",
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "id": "weather:City",
+      "type": "Entity",
+      "name": "City",
+      "description": "A geographical city location with weather data",
+      "relatesTo": [
+        "weather:Forecast",
+        "weather:AQI",
+        "weather:WeatherAlert"
+      ]
+    },
+    {
+      "id": "weather:Forecast",
+      "type": "Entity",
+      "name": "Forecast",
+      "description": "Weather forecast details for a city",
+      "relatesTo": [
+        "weather:RainPrediction",
+        "weather:WindConditions",
+        "weather:TravelAdvisory"
+      ]
+    },
+    {
+      "id": "weather:AQI",
+      "type": "Entity",
+      "name": "AQI",
+      "description": "Air Quality Index information",
+      "relatesTo": [
+        "weather:HealthRecommendation"
+      ]
+    },
+    {
+      "id": "weather:WeatherAlert",
+      "type": "Entity",
+      "name": "WeatherAlert",
+      "description": "Weather warning and alert information"
+    },
+    {
+      "id": "weather:RainPrediction",
+      "type": "Entity",
+      "name": "RainPrediction",
+      "description": "Rain probability and precipitation forecast"
+    },
+    {
+      "id": "weather:WindConditions",
+      "type": "Entity",
+      "name": "WindConditions",
+      "description": "Wind speed and direction conditions"
+    },
+    {
+      "id": "weather:TravelAdvisory",
+      "type": "Entity",
+      "name": "TravelAdvisory",
+      "description": "Travel recommendations based on weather"
+    },
+    {
+      "id": "weather:HealthRecommendation",
+      "type": "Entity",
+      "name": "HealthRecommendation",
+      "description": "Health guidance based on AQI and weather conditions"
+    }
+  ]
+}

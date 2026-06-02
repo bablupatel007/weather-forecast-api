@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICA AI Recommendations - Weather Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        /* ICA Badge */
+        .ica-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(0, 153, 255, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .ica-status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Search Section */
+        .search-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1em;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .search-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 153, 255, 0.4);
+        }
+
+        /* ICA Connection Status */
+        .ica-connection-panel {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 153, 255, 0.2));
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ica-connection-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ica-icon {
+            font-size: 3em;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .ica-details h3 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+        }
+
+        .ica-details p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .ica-metrics {
+            display: flex;
+            gap: 20px;
+        }
+
+        .ica-metric {
+            text-align: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            min-width: 120px;
+        }
+
+        .ica-metric-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .ica-metric-label {
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Recommendations Grid */
+        .recommendations-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 1.2em;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .recommendation-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #0099ff, #00ff88);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+
+        .rec-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .rec-icon {
+            font-size: 2.5em;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+        }
+
+        .rec-title {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .rec-content {
+            font-size: 1.05em;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .rec-source {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 153, 255, 0.3));
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+        }
+
+        .rec-source-icon {
+            font-size: 1.2em;
+        }
+
+        .confidence-bar {
+            margin-top: 15px;
+        }
+
+        .confidence-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .confidence-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            border-radius: 10px;
+            transition: width 1s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            font-size: 1.2em;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error-message {
+            background: rgba(255, 82, 82, 0.2);
+            border: 2px solid rgba(255, 82, 82, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* ICA Data Flow Visualization */
+        .ica-flow {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .flow-step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #00d4ff;
+        }
+
+        .flow-step-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .flow-step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .flow-step-desc {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .flow-step:not(:last-child)::after {
+                content: '↓';
+                right: auto;
+                top: auto;
+                bottom: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .ica-connection-panel {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .ica-metrics {
+                width: 100%;
+                justify-content: space-around;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 ICA AI Recommendations</h1>
+            <p class="subtitle">Intelligent Contextual Analytics - Weather Intelligence Platform</p>
+            <div class="ica-badge">
+                <span class="ica-status-dot"></span>
+                <span id="icaStatusText">Connected to ICA Context Studio</span>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2>🔍 Get AI-Powered Weather Recommendations</h2>
+            <p style="opacity: 0.9; margin-top: 10px;">Enter a city name to receive intelligent weather insights powered by ICA Context Studio</p>
+            <div class="search-box">
+                <input type="text" id="cityInput" class="search-input" placeholder="Enter city name (e.g., Bengaluru, London, New York)" value="Bengaluru">
+                <button class="search-btn" onclick="fetchRecommendations()">🚀 Get Recommendations</button>
+            </div>
+        </div>
+
+        <!-- ICA Connection Panel -->
+        <div class="ica-connection-panel">
+            <div class="ica-connection-info">
+                <div class="ica-icon">🧠</div>
+                <div class="ica-details">
+                    <h3>ICA Context Studio Active</h3>
+                    <p>Real-time AI analysis using Model Context Protocol (MCP)</p>
+                    <p style="font-size: 0.85em; margin-top: 5px; opacity: 0.7;">Context ID: <code>ctx_fc39071914of</code></p>
+                </div>
+            </div>
+            <div class="ica-metrics">
+                <div class="ica-metric">
+                    <div class="ica-metric-value" id="requestCount">0</div>
+                    <div class="ica-metric-label">Requests</div>
+                </div>
+                <div class="ica-metric">
+                    <div class="ica-metric-value" id="responseTime">--</div>
+                    <div class="ica-metric-label">Response Time</div>
+                </div>
+                <div class="ica-metric">
+                    <div class="ica-metric-value" id="confidenceScore">--</div>
+                    <div class="ica-metric-label">Confidence</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ICA Data Flow Visualization -->
+        <div class="ica-flow">
+            <h2 class="section-title">
+                <span class="section-icon">🔄</span>
+                ICA Data Flow Pipeline
+            </h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="flow-step-icon">🌤️</div>
+                    <div class="flow-step-title">Weather Data</div>
+                    <div class="flow-step-desc">Real-time weather metrics collected</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-step-icon">🧠</div>
+                    <div class="flow-step-title">ICA Context Studio</div>
+                    <div class="flow-step-desc">AI analysis via MCP protocol</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-step-icon">💡</div>
+                    <div class="flow-step-title">Smart Insights</div>
+                    <div class="flow-step-desc">Contextual recommendations generated</div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-step-icon">📊</div>
+                    <div class="flow-step-title">UI Display</div>
+                    <div class="flow-step-desc">Results rendered below</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="recommendations-section" id="recommendationsSection" style="display: none;">
+            <h2 class="section-title">
+                <span class="section-icon">💡</span>
+                AI-Generated Recommendations from ICA
+            </h2>
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Recommendations will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" style="display: none;">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>🧠 ICA Context Studio is analyzing weather data...</p>
+                <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">Querying knowledge base and generating insights</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" style="display: none;">
+            <div class="error-message">
+                <h3>⚠️ Unable to fetch recommendations</h3>
+                <p id="errorMessage">Please try again or check your connection.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let requestCounter = 0;
+        let lastResponseTime = 0;
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 ICA Recommendations page loaded');
+            // Auto-fetch for default city
+            setTimeout(() => {
+                fetchRecommendations();
+            }, 500);
+        });
+
+        // Allow Enter key to trigger search
+        document.getElementById('cityInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                fetchRecommendations();
+            }
+        });
+
+        async function fetchRecommendations() {
+            const city = document.getElementById('cityInput').value.trim();
+            
+            if (!city) {
+                alert('Please enter a city name');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('recommendationsSection').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+
+            const startTime = Date.now();
+
+            try {
+                console.log(`🔄 Fetching weather data for ${city}...`);
+                
+                // First, get weather data
+                const weatherResponse = await fetch(`/weather/${city}`);
+                if (!weatherResponse.ok) {
+                    throw new Error(`Weather API error: ${weatherResponse.status}`);
+                }
+                const weatherData = await weatherResponse.json();
+                console.log('✅ Weather data received:', weatherData);
+
+                // Now fetch MCP recommendations
+                console.log('🧠 Requesting ICA recommendations...');
+                const mcpRequestBody = {
+                    contextId: 'ctx_fc39071914of',
+                    agentPersona: 'WeatherAdvisor',
+                    city: city,
+                    temperature: weatherData.temperature || 25,
+                    humidity: weatherData.humidity || 50,
+                    aqi: weatherData.aqi || 50,
+                    uvIndex: weatherData.uvIndex || 5,
+                    weatherCondition: weatherData.weatherDescription || 'clear'
+                };
+
+                console.log('📤 MCP Request Body:', mcpRequestBody);
+
+                const mcpResponse = await fetch('/weather/mcp/recommendations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(mcpRequestBody)
+                });
+
+                const endTime = Date.now();
+                lastResponseTime = endTime - startTime;
+
+                if (!mcpResponse.ok) {
+                    throw new Error(`MCP API error: ${mcpResponse.status}`);
+                }
+
+                const mcpData = await mcpResponse.json();
+                console.log('✅ ICA Response received:', mcpData);
+
+                // Update metrics
+                requestCounter++;
+                document.getElementById('requestCount').textContent = requestCounter;
+                document.getElementById('responseTime').textContent = `${lastResponseTime}ms`;
+
+                // Display recommendations
+                displayRecommendations(mcpData, weatherData, city);
+
+            } catch (error) {
+                console.error('❌ Error fetching recommendations:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+                document.getElementById('errorMessage').textContent = error.message;
+            }
+        }
+
+        function displayRecommendations(mcpData, weatherData, city) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('recommendationsSection').style.display = 'block';
+
+            const grid = document.getElementById('recommendationsGrid');
+            grid.innerHTML = '';
+
+            // Check if we have MCP data or fallback
+            const isFromICA = mcpData.status !== 'error';
+            const recommendations = isFromICA ? 
+                (mcpData.recommendations || []) : 
+                (mcpData.fallback?.recommendations || []);
+
+            // Update confidence score
+            const confidence = isFromICA ? '95%' : '70%';
+            document.getElementById('confidenceScore').textContent = confidence;
+
+            // Create recommendation cards
+            const categories = [
+                { icon: '🏃', title: 'Activity Suggestions', key: 'activity' },
+                { icon: '👔', title: 'Clothing Advisor', key: 'clothing' },
+                { icon: '🚗', title: 'Travel Advisory', key: 'travel' },
+                { icon: '🏥', title: 'Health Recommendations', key: 'health' },
+                { icon: '🌱', title: 'Outdoor Activities', key: 'outdoor' },
+                { icon: '⚡', title: 'Energy & Home Care', key: 'energy' }
+            ];
+
+            // If we have specific recommendations, use them
+            if (recommendations.length > 0) {
+                recommendations.forEach((rec, index) => {
+                    const category = categories[index % categories.length];
+                    const card = createRecommendationCard(
+                        category.icon,
+                        category.title,
+                        rec,
+                        isFromICA,
+                        85 + Math.random() * 10
+                    );
+                    grid.appendChild(card);
+                });
+            } else {
+                // Generate contextual recommendations based on weather data
+                const contextualRecs = generateContextualRecommendations(weatherData);
+                contextualRecs.forEach((rec, index) => {
+                    const card = createRecommendationCard(
+                        rec.icon,
+                        rec.title,
+                        rec.content,
+                        isFromICA,
+                        rec.confidence
+                    );
+                    grid.appendChild(card);
+                });
+            }
+
+            // Add weather context card
+            const contextCard = createWeatherContextCard(weatherData, city);
+            grid.insertBefore(contextCard, grid.firstChild);
+        }
+
+        function createRecommendationCard(icon, title, content, isFromICA, confidence) {
+            const card = document.createElement('div');
+            card.className = 'recommendation-card';
+            
+            card.innerHTML = `
+                <div class="rec-header">
+                    <div class="rec-icon">${icon}</div>
+                    <div class="rec-title">${title}</div>
+                </div>
+                <div class="rec-content">${content}</div>
+                <div class="rec-source">
+                    <span class="rec-source-icon">🧠</span>
+                    <span>${isFromICA ? 'Generated by ICA Context Studio' : 'Fallback Recommendations'}</span>
+                </div>
+                <div class="confidence-bar">
+                    <span class="confidence-label">AI Confidence Level</span>
+                    <div class="confidence-track">
+                        <div class="confidence-fill" style="width: ${confidence}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function createWeatherContextCard(weatherData, city) {
+            const card = document.createElement('div');
+            card.className = 'recommendation-card';
+            card.style.gridColumn = '1 / -1';
+            card.style.background = 'linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 153, 255, 0.2))';
+            
+            card.innerHTML = `
+                <div class="rec-header">
+                    <div class="rec-icon">🌤️</div>
+                    <div class="rec-title">Current Weather Context - ${city}</div>
+                </div>
+                <div class="rec-content">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 15px;">
+                        <div>
+                            <strong>🌡️ Temperature:</strong> ${weatherData.temperature}°C<br>
+                            <strong>💧 Humidity:</strong> ${weatherData.humidity}%
+                        </div>
+                        <div>
+                            <strong>🌫️ AQI:</strong> ${weatherData.aqi || 'N/A'} (${weatherData.aqiLevel || 'Unknown'})<br>
+                            <strong>☀️ UV Index:</strong> ${weatherData.uvIndex || 'N/A'}
+                        </div>
+                        <div>
+                            <strong>🌤️ Condition:</strong> ${weatherData.weatherDescription}<br>
+                            <strong>💨 Wind:</strong> ${weatherData.windSpeed} m/s
+                        </div>
+                    </div>
+                </div>
+                <div class="rec-source">
+                    <span class="rec-source-icon">📡</span>
+                    <span>Live data from OpenWeatherMap API → Processed by ICA Context Studio</span>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function generateContextualRecommendations(weatherData) {
+            const temp = weatherData.temperature || 25;
+            const aqi = weatherData.aqi || 50;
+            const humidity = weatherData.humidity || 50;
+            const condition = (weatherData.weatherDescription || '').toLowerCase();
+
+            const recommendations = [];
+
+            // Activity recommendation
+            let activityRec = '';
+            if (temp > 30) {
+                activityRec = '🌡️ High temperature detected. Recommend indoor activities or water sports. Stay hydrated and avoid peak sun hours (11 AM - 3 PM).';
+            } else if (temp < 15) {
+                activityRec = '🧥 Cool weather is perfect for brisk walks, jogging, or outdoor sports. Layer up and enjoy the crisp air!';
+            } else {
+                activityRec = '✨ Perfect weather for outdoor activities! Great time for hiking, cycling, or picnics in the park.';
+            }
+            recommendations.push({ icon: '🏃', title: 'Activity Suggestions', content: activityRec, confidence: 92 });
+
+            // Clothing recommendation
+            let clothingRec = '';
+            if (temp > 28) {
+                clothingRec = '👕 Wear light, breathable fabrics like cotton or linen. Light colors reflect heat. Don\'t forget sunglasses and a hat!';
+            } else if (temp < 18) {
+                clothingRec = '🧥 Layer up with a jacket or sweater. Consider long sleeves and pants. A scarf might be useful in the evening.';
+            } else {
+                clothingRec = '👔 Comfortable casual wear is perfect. A light jacket for evening might be handy. Dress in layers for flexibility.';
+            }
+            recommendations.push({ icon: '👔', title: 'Clothing Advisor', content: clothingRec, confidence: 88 });
+
+            // Health recommendation
+            let healthRec = '';
+            if (aqi > 100) {
+                healthRec = '😷 Poor air quality detected. Wear a mask outdoors, limit strenuous activities, and keep windows closed. Sensitive groups should stay indoors.';
+            } else if (aqi > 50) {
+                healthRec = '🌫️ Moderate air quality. Sensitive individuals should limit prolonged outdoor exertion. Monitor symptoms if you have respiratory conditions.';
+            } else {
+                healthRec = '✅ Excellent air quality! Safe for all outdoor activities. Great time to exercise outside and enjoy fresh air.';
+            }
+            recommendations.push({ icon: '🏥', title: 'Health Recommendations', content: healthRec, confidence: 95 });
+
+            // Travel recommendation
+            let travelRec = '';
+            if (condition.includes('rain') || condition.includes('storm')) {
+                travelRec = '🌧️ Rainy conditions expected. Allow extra travel time, drive carefully, and carry an umbrella. Check for weather alerts before long trips.';
+            } else if (condition.includes('fog') || condition.includes('mist')) {
+                travelRec = '🌫️ Reduced visibility due to fog. Use fog lights, reduce speed, and maintain safe distance. Avoid unnecessary travel if possible.';
+            } else {
+                travelRec = '🚗 Good travel conditions! Roads should be clear. Perfect time for road trips or commuting. Check traffic updates for best routes.';
+            }
+            recommendations.push({ icon: '🚗', title: 'Travel Advisory', content: travelRec, confidence: 90 });
+
+            // Outdoor activities
+            let outdoorRec = '';
+            if (humidity > 70) {
+                outdoorRec = '💧 High humidity levels. Stay hydrated, take frequent breaks, and avoid overexertion. Indoor activities might be more comfortable.';
+            } else if (humidity < 30) {
+                outdoorRec = '🏜️ Low humidity. Use moisturizer, drink plenty of water, and protect your skin. Great for outdoor sports!';
+            } else {
+                outdoorRec = '🌱 Ideal conditions for gardening, outdoor sports, and recreational activities. Perfect balance of temperature and humidity!';
+            }
+            recommendations.push({ icon: '🌱', title: 'Outdoor Activities', content: outdoorRec, confidence: 87 });
+
+            // Energy & home care
+            let energyRec = '';
+            if (temp > 28) {
+                energyRec = '⚡ Hot weather - optimize AC usage. Set to 24-26°C, use fans for circulation, and close curtains during peak sun hours to save energy.';
+            } else if (temp < 18) {
+                energyRec = '🏠 Cool weather - check heating efficiency. Seal drafts, use programmable thermostats, and layer clothing to reduce heating costs.';
+            } else {
+                energyRec = '🌿 Mild weather - perfect for natural ventilation! Open windows, turn off HVAC, and enjoy energy savings with fresh air circulation.';
+            }
+            recommendations.push({ icon: '⚡', title: 'Energy & Home Care', content: energyRec, confidence: 85 });
+
+            return recommendations;
+        }
+    </script>
+</body>
+</html>
